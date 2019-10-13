@@ -29,4 +29,18 @@
 			<type>pom</type>
 		</dependency>
 	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java/tuv/lib/</directory>
+				<includes>
+					<include>**/*.fxml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+
+
+
 </project>

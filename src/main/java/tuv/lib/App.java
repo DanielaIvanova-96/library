@@ -22,7 +22,7 @@ public class App extends Application {
 			LogInController logInController = new LogInController();
 			FXMLLoader loader = new FXMLLoader();
 
-			URL location = getClass().getResource("./views/LogIn.fxml");
+			URL location = App.class.getResource("/views/LogIn.fxml");
 			loader.setLocation(location);   
 			loader.setController(logInController);
 			loader.load();
