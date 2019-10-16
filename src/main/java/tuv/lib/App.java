@@ -3,12 +3,19 @@ package tuv.lib;
 import java.io.IOException;
 import java.net.URL;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tuv.lib.controllers.LogInController;
+import tuv.lib.models.HibernateUtil;
+import tuv.lib.models.User;
+import tuv.lib.models.dao.UserDAOImpl;
 
 
 /**
@@ -36,6 +43,18 @@ public class App extends Application {
     }
 	
 	public static void main(String[] args) {
+		//UserDAOImpl daoImpl = new UserDAOImpl();
+	
+		Session s = HibernateUtil.getSessionFactory().openSession();
+
+		String sql = "select version()";
+  
+		String res = (String) s.createNativeQuery(sql).getSingleResult();
+		System.out.println(res);
+		
+		s.close();
+		//User zheni = daoImpl.getUserById(2);
+		
 		launch(args);
 	}
 }
