@@ -51,7 +51,9 @@ public class App extends Application {
   
 		String res = (String) s.createNativeQuery(sql).getSingleResult();
 		System.out.println(res);
-		
+		s.beginTransaction();
+		User u = s.get(User.class,2);
+		System.out.println(u.getName());
 		s.close();
 		//User zheni = daoImpl.getUserById(2);
 		
