@@ -28,3 +28,4 @@ hs_err_pid*
 # Ignore POM
 pom.xml
 pom-bk.xml
+pom.xml
