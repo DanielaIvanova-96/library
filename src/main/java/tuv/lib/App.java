@@ -17,7 +17,6 @@ import tuv.lib.models.HibernateUtil;
 import tuv.lib.models.User;
 import tuv.lib.models.dao.UserDAOImpl;
 
-
 /**
  * Hello world!
  *
@@ -30,7 +29,7 @@ public class App extends Application {
 			FXMLLoader loader = new FXMLLoader();
 
 			URL location = App.class.getResource("/views/LogIn.fxml");
-			loader.setLocation(location);   
+			loader.setLocation(location);
 			loader.setController(logInController);
 			loader.load();
 			stage.setTitle("Library Log In");
@@ -40,23 +39,23 @@ public class App extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-	
+	}
+
 	public static void main(String[] args) {
-		//UserDAOImpl daoImpl = new UserDAOImpl();
-	
+		// UserDAOImpl daoImpl = new UserDAOImpl();
+
 		Session s = HibernateUtil.getSessionFactory().openSession();
 
 		String sql = "select version()";
-  
+
 		String res = (String) s.createNativeQuery(sql).getSingleResult();
 		System.out.println(res);
 		s.beginTransaction();
-		User u = s.get(User.class,2);
+		User u = s.get(User.class, 1);
 		System.out.println(u.getName());
 		s.close();
-		//User zheni = daoImpl.getUserById(2);
-		
+		// User zheni = daoImpl.getUserById(2);
+
 		launch(args);
 	}
 }
