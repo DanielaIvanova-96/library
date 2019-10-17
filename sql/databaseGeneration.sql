@@ -15,9 +15,9 @@ CREATE SCHEMA IF NOT EXISTS `libr` DEFAULT CHARACTER SET utf8 ;
 USE `libr` ;
 
 -- -----------------------------------------------------
--- Table `libr`.`GENRES`
+-- Table `GENRES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`GENRES` (
+CREATE TABLE IF NOT EXISTS `GENRES` (
   `GENRE_ID` INT NOT NULL AUTO_INCREMENT,
   `GENRE_NAME` VARCHAR(45) NULL,
   PRIMARY KEY (`GENRE_ID`),
@@ -26,9 +26,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`BOOKS_INFO`
+-- Table `BOOKS_INFO`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`BOOKS_INFO` (
+CREATE TABLE IF NOT EXISTS `BOOKS_INFO` (
   `BOOK_INFO_ID` INT NOT NULL AUTO_INCREMENT,
   `BOOK_INFO_NAME` VARCHAR(70) NULL,
   `BOOK_INFO_INV_NUM` VARCHAR(15) NULL,
@@ -38,16 +38,16 @@ CREATE TABLE IF NOT EXISTS `libr`.`BOOKS_INFO` (
   INDEX `fk_BOOKS_GENRES1_idx` (`GENRE_ID` ASC),
   CONSTRAINT `fk_BOOKS_GENRES1`
     FOREIGN KEY (`GENRE_ID`)
-    REFERENCES `libr`.`GENRES` (`GENRE_ID`)
+    REFERENCES `GENRES` (`GENRE_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`AUTHORS`
+-- Table `AUTHORS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`AUTHORS` (
+CREATE TABLE IF NOT EXISTS `AUTHORS` (
   `AUTHOR_ID` INT NOT NULL AUTO_INCREMENT,
   `AUTHOR_NAME` VARCHAR(45) NULL,
   PRIMARY KEY (`AUTHOR_ID`),
@@ -56,30 +56,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`AUTHORS_BOOKS`
+-- Table `AUTHORS_BOOKS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`AUTHORS_BOOKS` (
+CREATE TABLE IF NOT EXISTS `AUTHORS_BOOKS` (
   `AUTHOR_ID` INT NOT NULL,
   `BOOK_NFO_ID` INT NOT NULL,
   PRIMARY KEY (`AUTHOR_ID`, `BOOK_NFO_ID`),
   INDEX `fk_AUTHORS_BOOKS_BOOKS1_idx` (`BOOK_NFO_ID` ASC),
   CONSTRAINT `fk_AUTHORS_BOOKS_AUTHORS1`
     FOREIGN KEY (`AUTHOR_ID`)
-    REFERENCES `libr`.`AUTHORS` (`AUTHOR_ID`)
+    REFERENCES `AUTHORS` (`AUTHOR_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_AUTHORS_BOOKS_BOOKS1`
     FOREIGN KEY (`BOOK_NFO_ID`)
-    REFERENCES `libr`.`BOOKS_INFO` (`BOOK_INFO_ID`)
+    REFERENCES `BOOKS_INFO` (`BOOK_INFO_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`USERS`
+-- Table `USERS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`USERS` (
+CREATE TABLE IF NOT EXISTS `USERS` (
   `USER_ID` INT NOT NULL AUTO_INCREMENT,
   `USER_NAME` VARCHAR(30) NULL,
   `USER_PASSWORD` VARCHAR(60) NULL,
@@ -92,9 +92,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`BOOKS`
+-- Table `BOOKS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`BOOKS` (
+CREATE TABLE IF NOT EXISTS `BOOKS` (
   `BOOK_ID` INT NOT NULL AUTO_INCREMENT,
   `BOOK_CONDITION` INT NULL,
   `BOOK_INFO_ID` INT NOT NULL,
@@ -103,16 +103,16 @@ CREATE TABLE IF NOT EXISTS `libr`.`BOOKS` (
   UNIQUE INDEX `BOOK_ENITITY_ID_UNIQUE` (`BOOK_ID` ASC),
   CONSTRAINT `fk_BOOK_ENITIES_BOOKS1`
     FOREIGN KEY (`BOOK_INFO_ID`)
-    REFERENCES `libr`.`BOOKS_INFO` (`BOOK_INFO_ID`)
+    REFERENCES `BOOKS_INFO` (`BOOK_INFO_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `libr`.`RENTS`
+-- Table `RENTS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `libr`.`RENTS` (
+CREATE TABLE IF NOT EXISTS `RENTS` (
   `RENT_ID` INT NOT NULL AUTO_INCREMENT,
   `TAKE_DATE` DATE NULL,
   `REALISE_DATE` DATE NULL,
@@ -124,12 +124,12 @@ CREATE TABLE IF NOT EXISTS `libr`.`RENTS` (
   UNIQUE INDEX `RENT_ID_UNIQUE` (`RENT_ID` ASC),
   CONSTRAINT `fk_RENTS_BOOK_ENITIES1`
     FOREIGN KEY (`BOOK_ID`)
-    REFERENCES `libr`.`BOOKS` (`BOOK_ID`)
+    REFERENCES `BOOKS` (`BOOK_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_RENTS_USERS1`
     FOREIGN KEY (`USER_ID`)
-    REFERENCES `libr`.`USERS` (`USER_ID`)
+    REFERENCES `USERS` (`USER_ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
