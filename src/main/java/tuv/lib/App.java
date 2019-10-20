@@ -55,7 +55,7 @@ public class App extends Application {
 		
 		User ts= new User();
 		ts.setName("TestUser");
-		ts.setPass("passTest");
+		ts.setPassword("passTest");
 		
 		s.persist(ts);
 		
