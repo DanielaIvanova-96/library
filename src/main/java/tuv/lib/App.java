@@ -52,7 +52,18 @@ public class App extends Application {
 		System.out.println(res);
 		s.beginTransaction();
 		User u = s.get(User.class, 1);
-		System.out.println(u.getName());
+		
+		User ts= new User();
+		ts.setName("TestUser");
+		ts.setPass("passTest");
+		
+		s.persist(ts);
+		
+		
+		User uts = s.get(User.class, 3);
+		
+		
+		System.out.println(uts.getName());
 		s.close();
 		// User zheni = daoImpl.getUserById(2);
 
