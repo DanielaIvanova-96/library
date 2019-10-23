@@ -13,8 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tuv.lib.controllers.LogInController;
+import tuv.lib.models.Client;
 import tuv.lib.models.HibernateUtil;
 import tuv.lib.models.User;
+import tuv.lib.models.User.Possition;
 import tuv.lib.models.dao.UserDAOImpl;
 
 /**
@@ -51,17 +53,18 @@ public class App extends Application {
 		String res = (String) s.createNativeQuery(sql).getSingleResult();
 		System.out.println(res);
 		s.beginTransaction();
-		User u = s.get(User.class, 1);
+//User u = s.get(User.class, 1);
 		
-		User ts= new User();
-		ts.setName("TestUser");
-		ts.setPassword("passTest");
+//		User ts= new User();
+//		ts.setName("TestUser");
+//		ts.setPassword("passTest");
+//		ts.setPosstion(Possition.CLIENT);
+//		
+//		s.persist(ts);
+		int a =0;
 		
-		s.persist(ts);
-		
-		
+		//Client uts = s.get(Client.class, 3);
 		User uts = s.get(User.class, 3);
-		
 		
 		System.out.println(uts.getName());
 		s.close();

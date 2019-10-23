@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+	<class name="tuv.lib.models.User" table="USERS"
+		discriminator-value="USER_POSS">
+
+
+		<id name="id" type="int" column="USER_ID">
+			<generator class="increment" />
+		</id>
+
+		<property name="name" column="USER_NAME" type="string"></property>
+		<property name="password" column="USER_PASSWORD"
+			type="string"></property>
+		<discriminator type="int" column="USER_POSS"></discriminator>
+
+		<subclass name="tuv.lib.models.Client"
+			discriminator-value="2">
+			<property name="loyalty" column="USER_LOYALTY" type="int"></property>
+			<property name="phoneNum" column="USER_PH_NUM" type="string"></property>
+			<property name="recordDate" column="USER_REC_DATE" type="date"></property>
+
+		</subclass>
+	</class>
+</hibernate-mapping>

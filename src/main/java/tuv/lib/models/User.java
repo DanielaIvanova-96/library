@@ -1,19 +1,26 @@
 package tuv.lib.models;
 
 import java.time.LocalDate;
-
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+
+// could it be mapped super class -> admin , operator and client becomes entity
 @Entity
 @Table(name = "USERS")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "USER_POSS", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
 
-	enum Possition {
+	public enum Possition {
 		ADMIN, OPERATOR, CLIENT
 	}
 
@@ -31,34 +38,16 @@ public class User {
 	@Column(name = "USER_POSS")
 	Possition possition;
 
-	@Column(name = "USER_LOYALTY")
-	int loyalty;
-
-	@Column(name = "USER_PH_NUM")
-	String phoneNum;
-
-	@Column(name = "USER_REC_DATE")
-	LocalDate recordDate;
-
 	public User() {
 
 	}
 
-	public User(String name, String pass, Possition pos, LocalDate recDate) {
+	public User(String name, String pass, Possition pos) {
 		this.name = name;
 		this.password = pass;
-		this.possition = pos;
-		this.recordDate = recDate;
+		this.possition = pos;		
 	}
 
-	public User(String name, String pass, Possition pos, int loyalty, String phNum, LocalDate recDate) {
-		this.name = name;
-		this.password = pass;
-		this.possition = pos;
-		this.loyalty = loyalty;
-		this.phoneNum = phNum;
-		this.recordDate = recDate;
-	}
 
 	public int getId() {
 		return id;
@@ -83,5 +72,14 @@ public class User {
 	public void setPassword(String pass) {
 		this.password = pass;
 	}
+	
+	public Possition getPosstion() {
+		return possition;
+	}
+
+	public void setPosstion(Possition pos) {
+		this.possition = pos;
+	}
+	
 
 }
