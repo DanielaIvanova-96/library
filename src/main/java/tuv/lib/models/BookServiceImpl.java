@@ -1,5 +1,37 @@
 package tuv.lib.models;
 
-public class BookServiceImpl {
+import java.util.List;
 
+import tuv.lib.models.dao.BookDAO;
+import tuv.lib.models.interfaces.BookService;
+
+public class BookServiceImpl implements BookService {
+	private BookDAO bookDAO;
+
+	public void addBook(Book b) {
+		bookDAO.addBook(b);
+	}
+
+	public void updateBook(Book b) {
+		bookDAO.updateBook(b);
+	}
+
+	public void removeBook(int id) {
+		bookDAO.removeBook(id);
+	}
+
+	public Book getBookbyName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Book> getBooksByAuthor(String author) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Book> getBooksByGenre(String genre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

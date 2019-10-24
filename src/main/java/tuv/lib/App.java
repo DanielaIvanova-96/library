@@ -59,7 +59,7 @@ public class App extends Application {
 //		ts.setName("TestUser");
 //		ts.setPassword("passTest");
 //		ts.setPosstion(Possition.CLIENT);
-//		
+
 //		s.persist(ts);
 		int a =0;
 		
