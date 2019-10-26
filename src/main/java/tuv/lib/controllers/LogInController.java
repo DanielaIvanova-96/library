@@ -35,10 +35,10 @@ public class LogInController implements Initializable {
 	private Button btn_cancel;
 
 	@FXML
-	private TextField userNameTextBox;
+	private TextField tb_username;
 
 	@FXML
-	private TextField passwordTextBox;
+	private TextField tb_password;
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userService = new UserServiceImpl();
@@ -52,7 +52,7 @@ public class LogInController implements Initializable {
 
 		try {
 			
-			int pos = userService.getUserPos(userNameTextBox.getText(), passwordTextBox.getText());
+			int pos = userService.getUserPos(tb_username.getText(), tb_password.getText());
 
 			if (pos == 0) {
 				address = "../../../views/AdminPannel.fxml";
@@ -70,8 +70,8 @@ public class LogInController implements Initializable {
 						}
 					}
 				});
-				userNameTextBox.setText("");
-				passwordTextBox.setText("");
+				tb_username.setText("");
+				tb_password.setText("");
 				
 				return;
 			}
