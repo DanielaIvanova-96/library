@@ -71,10 +71,10 @@ public class App extends Application {
 //		s.close();
 		// User zheni = daoImpl.getUserById(2);
 		
-		DBConnector.setUpConncetion();
+		//DBConnector.setUpConncetion();
 		
 		
 
-		launch(args);
+ 		launch(args);
 	}
 }
