@@ -26,7 +26,7 @@ import tuv.lib.models.interfaces.UserService;
 
 public class LogInController implements Initializable {
 
-	private static UserService userService;
+	private UserService userService;
 
 	@FXML
 	private Button btn_logIn;
@@ -70,6 +70,9 @@ public class LogInController implements Initializable {
 						}
 					}
 				});
+				userNameTextBox.setText("");
+				passwordTextBox.setText("");
+				
 				return;
 			}
 
