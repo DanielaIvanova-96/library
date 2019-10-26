@@ -20,9 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import tuv.lib.App;
 import tuv.lib.models.DBConnector;
-import tuv.lib.models.UserServiceImpl;
 import tuv.lib.models.interfaces.UserService;
+import tuv.lib.models.UserServiceImpl;
+
 
 public class LogInController implements Initializable {
 
@@ -49,14 +51,20 @@ public class LogInController implements Initializable {
 
 		// System.out.println("some text");
 		String address = "";
-
+		//Parent root = FXMLLoader.load(getClass().getResource(address));
+		
 		try {
 			
+			FXMLLoader loader = new FXMLLoader();
 			int pos = userService.getUserPos(tb_username.getText(), tb_password.getText());
 
 			if (pos == 0) {
+				AdminController adc = new AdminController();
+				loader.setController(adc);
 				address = "../../../views/AdminPannel.fxml";
 			} else if (pos == 1) {
+				OperatorController oc = new OperatorController();
+				loader.setController(oc);
 				address = "../../../views/OperatorPannel.fxml";
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -77,14 +85,31 @@ public class LogInController implements Initializable {
 			}
 
 			btn_logIn.getScene().getWindow().hide();
+			
+//			LogInController logInController = new LogInController();
+//			FXMLLoader loader = new FXMLLoader();
+//
+//			URL location = App.class.getResource("/views/LogIn.fxml");
+//			loader.setLocation(location);
+//			loader.setController(logInController);
+//			loader.load();
+//			stage.setTitle("Library Log In");
+//			stage.setScene(new Scene((Parent) loader.getRoot()));
+//			stage.show();
+//			
+			
 			Stage sys = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource(address));
-			Scene scene = new Scene(root);
+			//FXMLLoader loader = new FXMLLoader();
+			//Parent root = loader.load();
+			//loader.setController(logInController);
+			loader.setLocation(getClass().getResource(address));
+			loader.load();
+			Scene scene = new Scene((Parent) loader.getRoot());
 			sys.setScene(scene);
 			sys.show();
 			sys.setResizable(false);
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

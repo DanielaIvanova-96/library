@@ -8,28 +8,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="336.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <tabs>
-    <Tab id="createOpr" text="Create Operator">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="228.0" prefWidth="356.0">
-               <children>
-                  <TextField id="tb_addUsername" fx:id="tb_addUsername" layoutX="135.0" layoutY="21.0" />
-                  <TextField id="tb_addPassword" fx:id="tb_addPassword" layoutX="135.0" layoutY="69.0" />
-                  <Text layoutX="38.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User name" />
-                  <Text layoutX="41.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab id="deleteOpr" text="Delete Operator">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Text layoutX="38.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User name" />
-                  <TextField id="tb_removeUsername" fx:id="tb_removeUsername" layoutX="143.0" layoutY="60.0" />
-                  <Button id="btn_removeUser" fx:id="btn_removeUser" layoutX="142.0" layoutY="122.0" mnemonicParsing="false" text="Button" />
-               </children></AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="336.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+	<tabs>
+		<Tab id="createOpr" text="Create Operator">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="228.0" prefWidth="356.0">
+					<children>
+						<TextField id="tb_addUsername" fx:id="tb_addUsername" layoutX="135.0" layoutY="21.0" />
+						<TextField id="tb_addPassword" fx:id="tb_addPassword" layoutX="135.0" layoutY="69.0" />
+						<Text layoutX="38.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User name" />
+						<Text layoutX="41.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+						<Button id="btn_addUser" fx:id="btn_addUser" layoutX="120.0" layoutY="124.0" mnemonicParsing="false" onAction="#createUser" text="Add Operator" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab id="deleteOpr" text="Delete Operator">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+					<children>
+						<Text layoutX="38.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User name" />
+						<TextField id="tb_removeUsername" fx:id="tb_removeUsername" layoutX="143.0" layoutY="60.0" />
+						<Button id="btn_removeUser" fx:id="btn_removeUser" layoutX="113.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeUser" text="Remove Operator" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+	</tabs>
 </TabPane>
