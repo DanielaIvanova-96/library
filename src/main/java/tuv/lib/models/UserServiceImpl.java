@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void addUser(User u) {
-		this.userDAO.addUser(u);
-		
+		this.userDAO.addUser(u);		
 	}
 
 	public void removeUser(int id) {

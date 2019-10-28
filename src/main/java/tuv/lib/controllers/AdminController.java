@@ -14,15 +14,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-
+import tuv.lib.models.User;
+import tuv.lib.models.User.Possition;
+import tuv.lib.models.UserServiceImpl;
+import tuv.lib.models.interfaces.UserService;
 
 
 
 public class AdminController implements Initializable {
 	//private UserService userService;
 	
-
+	private UserService userService;
+	
 	@FXML
 	private Button btn_addUser;
 	@FXML
@@ -37,7 +40,7 @@ public class AdminController implements Initializable {
 	private TextField tb_removeUsername;
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
-	//	userService = new UserServiceImpl();
+		userService = new UserServiceImpl();
 	}
 	
 	@FXML
@@ -50,6 +53,9 @@ public class AdminController implements Initializable {
 	@FXML
 	private void createUser(ActionEvent event) {
 
+		User u = new User(tb_addUsername.getText(),tb_addPassword.getText(),Possition.OPERATOR);
+		this.userService.addUser(u);
+		
 		System.out.println("some text");
 		
 	}

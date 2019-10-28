@@ -27,8 +27,23 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public void addUser(User u) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(u);
+		//INSERT INTO libr.users (USER_NAME, USER_PASSWORD, USER_POSS)
+		//VALUES ('Logi', 'pass5', '1');
+		
+		String query = "INSERT INTO libr.users (USER_NAME, USER_PASSWORD, USER_POSS)\r\n" + 
+				"VALUES ('"+u.getName()+"', '"+u.getPassword()+"', '"+u.getPosstion().ordinal()+"');" ;
+		
+		Connection con = DBConnector.getConnection();
+		ResultSet rs;
+		
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void updateUser(User u) {
