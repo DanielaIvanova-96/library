@@ -65,7 +65,8 @@ public class LogInController implements Initializable {
 			} else if (pos == 1) {
 				OperatorController oc = new OperatorController();
 				loader.setController(oc);
-				address = "../../../views/OperatorPannel.fxml";
+				//address = "../../../views/OperatorPannel.fxml";
+				address = "../../../views/test.fxml";
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
