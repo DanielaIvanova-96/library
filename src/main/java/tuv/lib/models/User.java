@@ -14,10 +14,10 @@ import javax.persistence.Table;
 
 
 // could it be mapped super class -> admin , operator and client becomes entity
-@Entity
-@Table(name = "USERS")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "USER_POSS", discriminatorType = DiscriminatorType.INTEGER)
+//@Entity
+//@Table(name = "USERS")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "USER_POSS", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
 
 	public enum Possition {

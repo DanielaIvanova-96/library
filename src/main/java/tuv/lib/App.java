@@ -26,6 +26,14 @@ import tuv.lib.models.dao.UserDAOImpl;
  */
 public class App extends Application {
 	@Override
+	public void stop() throws Exception {
+		
+		DBConnector.Disconnect();
+		System.out.println("out");
+		super.stop();
+	}
+
+	@Override
 	public void start(Stage stage) {
 		try {
 			LogInController logInController = new LogInController();

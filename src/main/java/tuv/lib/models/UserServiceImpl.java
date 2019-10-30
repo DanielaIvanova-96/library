@@ -9,13 +9,11 @@ import tuv.lib.models.interfaces.UserService;
 public class UserServiceImpl implements UserService {
 
 	private static UserDAO userDAO;
-	
-	private void checkUserDAO()
+		
+	public UserServiceImpl()
 	{
-		if(userDAO==null)
-		{
-			userDAO = new UserDAOImpl();
-		}
+		userDAO = new UserDAOImpl();
+		
 	}
 	
 	public void addUser(User u) {
@@ -28,7 +26,6 @@ public class UserServiceImpl implements UserService {
 	
 	public int getUserPos(String name, String password)
 	{
-		checkUserDAO();
 		try {
 			return this.userDAO.getUserPos(name, password);			
 		} catch (SQLException e) {
