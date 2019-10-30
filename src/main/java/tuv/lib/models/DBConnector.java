@@ -42,6 +42,17 @@ final public class DBConnector {
 		return con;
 	}
 
+	public static void Disconnect() {
+		try {
+			if (con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public static ResultSet executeQuery(String query) {
 		setUpConncetion();
 		ResultSet rs = null;
