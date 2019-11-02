@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Static class that connects to the database
+ * 
+ * @author Zheni
+ *
+ */
 final public class DBConnector {
 
 	private static Connection con;
@@ -15,6 +21,9 @@ final public class DBConnector {
 	private static final String user = "root";
 	private static final String password = "";
 
+	/**
+	 * Sets up the url , username and password for the database connection  
+	 */
 	public static void setUpConncetion() {
 
 		String query = "SELECT VERSION()";
@@ -35,6 +44,12 @@ final public class DBConnector {
 		}
 	}
 
+	/**
+	 * If connection is set returns the connection
+	 * if connection is not set, sets it and returns the connection
+	 * 
+	 * @return connection to the database
+	 */
 	public static Connection getConnection() {
 		if (con == null) {
 			setUpConncetion();
@@ -42,6 +57,9 @@ final public class DBConnector {
 		return con;
 	}
 
+	/**
+	 * Closes the connection to the database
+	 */
 	public static void Disconnect() {
 		try {
 			if (con != null) {

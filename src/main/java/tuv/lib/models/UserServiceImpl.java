@@ -6,6 +6,10 @@ import tuv.lib.models.dao.UserDAO;
 import tuv.lib.models.dao.UserDAOImpl;
 import tuv.lib.models.interfaces.UserService;
 
+/**
+ * Service used in controllers for communication with the database for the user models
+ * @author Zheni
+ */
 public class UserServiceImpl implements UserService {
 
 	private static UserDAO userDAO;
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
 		this.userDAO.removeUser(id);		
 	}
 	
+
 	public int getUserPos(String name, String password)
 	{
 		try {

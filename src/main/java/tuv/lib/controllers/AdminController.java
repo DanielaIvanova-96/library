@@ -20,6 +20,12 @@ import tuv.lib.models.User.Possition;
 import tuv.lib.models.UserServiceImpl;
 import tuv.lib.models.interfaces.UserService;
 
+/**
+ * 
+ * Controller that handles if the logged user is operator
+ * @author Zheni
+ *
+ */
 public class AdminController implements Initializable {
 	//private UserService userService;
 	private Admin admin;
@@ -50,13 +56,19 @@ public class AdminController implements Initializable {
 		
 	}
 	
+	/**
+	 * Listener on create operator button
+	 * Gets the information needed from the text boxes
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void createUser(ActionEvent event) {
 
 		User u = admin.createuser(tb_addUsername.getText(),tb_addPassword.getText());
 		this.userService.addUser(u);
-		
-		System.out.println("some text");
+
+		//System.out.println("some text");
 		
 	}
 }

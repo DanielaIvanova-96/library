@@ -5,6 +5,11 @@ import java.util.List;
 import tuv.lib.models.dao.BookDAO;
 import tuv.lib.models.interfaces.BookService;
 
+/**
+ * Service used in controllers for communication with the database for the books models
+ * @author Zheni
+ *
+ */
 public class BookServiceImpl implements BookService {
 	private BookDAO bookDAO;
 
