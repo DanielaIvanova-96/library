@@ -36,7 +36,6 @@ public class AdminController implements Initializable {
 	@FXML
 	private Button btn_removeUser;
 
-
 	@FXML
 	private TextField tb_addUsername;
 	@FXML
@@ -65,7 +64,7 @@ public class AdminController implements Initializable {
 	@FXML
 	private void createUser(ActionEvent event) {
 
-		User u = admin.createuser(tb_addUsername.getText(),tb_addPassword.getText());
+		User u = admin.createOperator(tb_addUsername.getText(),tb_addPassword.getText());
 		this.userService.addUser(u);
 
 		//System.out.println("some text");

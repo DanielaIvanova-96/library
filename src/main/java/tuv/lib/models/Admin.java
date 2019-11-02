@@ -13,7 +13,7 @@ public class Admin extends User {
 	 * @param pass operator password
 	 * @return new operator
 	 */
-	public User createuser(String name,String pass)
+	public User createOperator(String name,String pass)
 	{
 		User u = new User(name,pass,Possition.OPERATOR);
 		return u;
