@@ -23,11 +23,15 @@ public class OperatorController implements Initializable {
 
     @FXML
     private void buttonAction(ActionEvent event){
-        if(event.getSource() == btn_addBook)
-            pln_addBook.toFront();
+        if(event.getSource() == btn_addBook) {
+            pln_addBook.setVisible(true) ;
 
-        else if(event.getSource() == btn_removeBook)
-            pln_removeBook.toFront();
+        }
+
+        else if(event.getSource() == btn_removeBook) {
+            pln_addBook.setVisible(false);
+            pln_removeBook.setVisible(true) ;
+        }
 
         else if(event.getSource() == btn_addClient)
             pln_addClient.toFront();
@@ -48,5 +52,12 @@ public class OperatorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userService = new UserServiceImpl();
+        pln_removeBook.setVisible(false);
+        pln_addBook.setVisible(false);
+        pln_closeRent.setVisible(false);
+        pln_findClient.setVisible(false);
+        pln_makeRent.setVisible(false);
+        pln_findBook.setVisible(false);
+        pln_addClient.setVisible(false);
     }
 }
