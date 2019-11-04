@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutY="124.0" prefHeight="478.0" prefWidth="163.0" style="-fx-background-color: #34495e;">
+         <children>
+            <Button id="btn_addBook" fx:id="btn_addBook" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="ADD BOOK">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_removeBook" fx:id="btn_removeBook" layoutY="68.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="REMOVE BOOK">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_addClient" fx:id="btn_addClient" layoutY="136.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="ADD CLIENT">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.6190476190476191" endY="0.9285714285714286">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="#31cc6f" offset="0.007662835249042145" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_makeRent" fx:id="btn_makeRent" layoutY="204.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="MAKE RENT">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="#2ecc71" offset="0.007662835249042145" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_closeRent" fx:id="btn_closeRent" layoutY="272.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="CLOSE RENT">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.6190476190476191" endY="0.9285714285714286">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_findBook" fx:id="btn_findBook" layoutY="340.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="FIND BOOK">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.6190476190476191" endY="0.9285714285714286">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <Button id="btn_findClient" fx:id="btn_findClient" layoutY="408.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="FIND CLIENT">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.6190476190476191" endY="0.9285714285714286">
+                     <stops>
+                        <Stop color="#2ecc71" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="#2fcc70" offset="0.007662835249042145" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="129.0" prefWidth="875.0" style="-fx-background-color: #2ecc71;">
+         <children>
+            <ImageView fitHeight="121.0" fitWidth="147.0" layoutX="7.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resources/book.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane layoutX="169.0" layoutY="141.0" prefHeight="446.0" prefWidth="671.0">
+         <children>
+            <Pane fx:id="pln_addBook" layoutY="-14.0" prefHeight="465.0" prefWidth="700.0">
+               <children>
+                  <TextField />
+               </children></Pane>
+            <Pane fx:id="pln_removeBook" layoutY="-5.0" prefHeight="451.0" prefWidth="700.0">
+               <children>
+                  <TextField />
+               </children></Pane>
+            <Pane fx:id="pln_addClient" layoutY="-5.0" prefHeight="451.0" prefWidth="700.0" />
+            <Pane fx:id="pln_makeRent" layoutY="-6.0" prefHeight="451.0" prefWidth="700.0" />
+            <Pane fx:id="pln_closeRent" layoutY="-5.0" prefHeight="457.0" prefWidth="700.0" />
+            <Pane fx:id="pln_findBook" layoutY="-11.0" prefHeight="457.0" prefWidth="700.0" />
+            <Pane fx:id="pln_findClient" layoutY="-2.0" prefHeight="451.0" prefWidth="700.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
