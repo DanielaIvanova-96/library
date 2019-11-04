@@ -26,6 +26,12 @@ import tuv.lib.models.interfaces.UserService;
 import tuv.lib.models.UserServiceImpl;
 
 
+/**
+ * Controller for the login form
+ * 
+ * @author Zheni
+ *
+ */
 public class LogInController implements Initializable {
 
 	private UserService userService;
@@ -46,6 +52,11 @@ public class LogInController implements Initializable {
 		userService = new UserServiceImpl();
 	}
 
+	/**
+	 * 
+	 * Listener on login button
+	 * @param event
+	 */
 	@FXML
 	private void login(ActionEvent event) {
 
@@ -65,8 +76,8 @@ public class LogInController implements Initializable {
 			} else if (pos == 1) {
 				OperatorController oc = new OperatorController();
 				loader.setController(oc);
-				//address = "../../../views/OperatorPannel.fxml";
-				address = "../../../views/test.fxml";
+				address = "../../../views/OperatorPannel.fxml";
+				//address = "../../../views/test.fxml";
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
