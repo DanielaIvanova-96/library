@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ImageInput?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutY="124.0" prefHeight="478.0" prefWidth="163.0" style="-fx-background-color: #34495e;">
          <children>
@@ -70,7 +76,7 @@
                   </LinearGradient>
                </textFill>
             </Button>
-            <Button id="btn_closeRent" fx:id="btn_closeRent" layoutY="272.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="CLOSE RENT">
+            <Button id="btn_Classification" fx:id="btn_Classification" layoutY="272.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="CLASSIFICATION">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -117,29 +123,260 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="129.0" prefWidth="875.0" style="-fx-background-color: #2ecc71;">
+      <AnchorPane prefHeight="129.0" prefWidth="753.0" style="-fx-background-color: #2ecc71;">
          <children>
-            <ImageView fitHeight="121.0" fitWidth="147.0" layoutX="7.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="123.0" fitWidth="169.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../resources/book.png" />
+                  <Image url="@/book.png" />
                </image>
             </ImageView>
          </children></AnchorPane>
       <AnchorPane layoutX="169.0" layoutY="141.0" prefHeight="446.0" prefWidth="671.0">
          <children>
-            <Pane fx:id="pln_addBook" layoutY="-14.0" prefHeight="465.0" prefWidth="700.0">
+            <Pane fx:id="pln_addBook" layoutY="-9.0" prefHeight="465.0" prefWidth="583.0">
                <children>
-                  <TextField layoutX="115.0" layoutY="78.0" prefHeight="51.0" prefWidth="143.0" />
+                  <TextField id="tb_addBook_name" fx:id="tb_addBook_name" layoutX="201.0" layoutY="73.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_addBook_author" fx:id="tb_addBook_author" layoutX="201.0" layoutY="127.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_addBook_genre" fx:id="tb_addBook_genre" layoutX="201.0" layoutY="188.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_addBook_number" fx:id="tb_addBook_number" layoutX="201.0" layoutY="246.0" prefHeight="37.0" prefWidth="150.0" />
+                  <Label layoutX="97.0" layoutY="83.0" text="Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="93.0" layoutY="135.0" text="Author:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="97.0" layoutY="198.0" text="Genre:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="97.0" layoutY="256.0" text="Inv. number:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button id="btn_addBook_add" fx:id="btn_addBook_add" layoutX="384.0" layoutY="343.0" mnemonicParsing="false" onAction="#addBook" prefHeight="55.0" prefWidth="131.0" text="ADD" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/add_book_60px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
                </children></Pane>
-            <Pane fx:id="pln_removeBook" layoutY="-5.0" prefHeight="451.0" prefWidth="700.0">
+            <Pane fx:id="pln_removeBook" layoutY="-5.0" prefHeight="451.0" prefWidth="583.0" visible="false">
                <children>
-                  <Button layoutX="11.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="50.0" text="Button" />
+                  <TextField id="tb_removeBook_name" fx:id="tb_removeBook_name" layoutX="230.0" layoutY="67.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_removeBook_number" fx:id="tb_removeBook_number" layoutX="230.0" layoutY="189.0" prefHeight="37.0" prefWidth="150.0" />
+                  <Button id="btn_removebook_archeve" fx:id="btn_removebook_archeve" layoutX="107.0" layoutY="361.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/archeve_book_52px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Button id="btn_removebook_remove" fx:id="btn_removebook_remove" layoutX="414.0" layoutY="354.0" mnemonicParsing="false" onAction="#removeBook" prefHeight="55.0" prefWidth="96.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/remove_book_60px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Label layoutX="79.0" layoutY="77.0" text="Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="79.0" layoutY="199.0" text="Inv. number:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
                </children></Pane>
-            <Pane fx:id="pln_addClient" layoutY="-5.0" prefHeight="451.0" prefWidth="700.0" />
-            <Pane fx:id="pln_makeRent" layoutY="-6.0" prefHeight="451.0" prefWidth="700.0" />
-            <Pane fx:id="pln_closeRent" layoutY="-5.0" prefHeight="457.0" prefWidth="700.0" />
-            <Pane fx:id="pln_findBook" layoutY="-11.0" prefHeight="457.0" prefWidth="700.0" />
-            <Pane fx:id="pln_findClient" layoutY="-2.0" prefHeight="451.0" prefWidth="700.0" />
+            <Pane fx:id="pln_makeRent" layoutY="-5.0" prefHeight="451.0" prefWidth="583.0" visible="false">
+               <children>
+                  <TextField id="tb_" layoutX="217.0" layoutY="67.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField layoutX="217.0" layoutY="136.0" prefHeight="37.0" prefWidth="150.0" />
+                  <DatePicker layoutX="217.0" layoutY="207.0" prefHeight="37.0" prefWidth="150.0" />
+                  <Button layoutX="85.0" layoutY="319.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/borrow_book_64px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Button layoutX="401.0" layoutY="319.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/return_book_64px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Label layoutX="85.0" layoutY="77.0" text="Client Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="85.0" layoutY="144.0" text="Book Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="91.0" layoutY="215.0" text="Take Date:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Pane fx:id="pln_addClient" layoutY="-6.0" prefHeight="451.0" prefWidth="583.0" visible="false">
+               <children>
+                  <TextField id="tb_addClient_name" fx:id="tb_addClient_name" layoutX="231.0" layoutY="73.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_addClient_pass" fx:id="tb_addClient_pass" layoutX="231.0" layoutY="131.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_addClient_phone" fx:id="tb_addClient_phone" layoutX="231.0" layoutY="195.0" prefHeight="37.0" prefWidth="150.0" />
+                  <Button id="btn_addClient_add" fx:id="btn_addClient_add" layoutX="381.0" layoutY="294.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="115.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/add_user_52px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Label layoutX="105.0" layoutY="83.0" text="User Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="105.0" layoutY="141.0" text="Password:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="105.0" layoutY="205.0" text="Phone Number:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Pane fx:id="pln_Classification" layoutY="-5.0" prefHeight="457.0" prefWidth="583.0" visible="false">
+               <children>
+                  <Button id="btn_class_loyalty" fx:id="btn_class_loyalty" layoutX="38.0" layoutY="24.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="242.0" style="-fx-background-color: #34495e;" text="Classify by loyalty" textFill="#2fcc70">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="btn_class_date" fx:id="btn_class_date" layoutX="317.0" layoutY="24.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="228.0" style="-fx-background-color: #34495e;" text="Classify by  registration date" textFill="#2fcc70">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <TableView layoutX="38.0" layoutY="109.0" prefHeight="283.0" prefWidth="517.0">
+                    <columns>
+                      <TableColumn prefWidth="178.0" text="Name" />
+                      <TableColumn minWidth="0.0" prefWidth="141.0" text="Phone" />
+                        <TableColumn prefWidth="118.0" text="Registration date" />
+                        <TableColumn prefWidth="78.0" text="Loyalty" />
+                    </columns>
+                  </TableView>
+               </children></Pane>
+            <Pane fx:id="pln_findBook" layoutY="-11.0" prefHeight="457.0" prefWidth="583.0" visible="false">
+               <children>
+                  <TextField id="tb_findBook_name" fx:id="tb_findBook_name" layoutX="180.0" layoutY="27.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_findBook_author" fx:id="tb_findBook_author" layoutX="180.0" layoutY="89.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_findBook_genre" fx:id="tb_findBook_genre" layoutX="180.0" layoutY="145.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_findBook_condition" fx:id="tb_findBook_condition" layoutX="180.0" layoutY="203.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TableView id="tw_findBook" fx:id="tw_findBook" layoutX="17.0" layoutY="277.0" prefHeight="141.0" prefWidth="550.0">
+                    <columns>
+                      <TableColumn id="tc_findBook_name" fx:id="tc_findBook_name" prefWidth="133.0" text="Name" />
+                      <TableColumn id="tc_findBook_author" fx:id="tc_findBook_author" prefWidth="121.0" text="Author" />
+                        <TableColumn id="tc_findBook_genre" fx:id="tc_findBook_genre" prefWidth="82.0" text="Genre" />
+                        <TableColumn id="tc_findBook_invNum" fx:id="tc_findBook_invNum" prefWidth="92.0" text="Inv Num" />
+                        <TableColumn id="tc_findBook_condition" fx:id="tc_findBook_condition" prefWidth="121.0" text="Condition" />
+                    </columns>
+                  </TableView>
+                  <ComboBox id="cb_findBook" fx:id="cb_findBook" layoutX="378.0" layoutY="64.0" prefHeight="37.0" prefWidth="158.0" visible="false" />
+                  <Button id="btn_findBook_find" fx:id="btn_findBook_find" layoutX="424.0" layoutY="189.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="111.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/search_folder_60px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+                  <Label layoutX="41.0" layoutY="35.0" text="Book Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="41.0" layoutY="97.0" text="Book Author:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="41.0" layoutY="153.0" text="Book Genre:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="41.0" layoutY="211.0" text="Book Condition:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font></Label>
+                  <Label layoutX="378.0" layoutY="29.0" text="Find by:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Pane fx:id="pln_findClient" layoutY="-2.0" prefHeight="451.0" prefWidth="583.0" visible="false">
+               <children>
+                  <TextField id="tb_findClient_name" fx:id="tb_findClient_name" layoutX="143.0" layoutY="47.0" prefHeight="37.0" prefWidth="158.0" />
+                  <TextField id="tb_findClient_phone" fx:id="tb_findClient_phone" layoutX="143.0" layoutY="114.0" prefHeight="37.0" prefWidth="158.0" />
+                  <TableView id="tw_findClient" fx:id="tw_findClient" layoutX="13.0" layoutY="183.0" prefHeight="211.0" prefWidth="558.0">
+                    <columns>
+                      <TableColumn id="tc_findClient_name" fx:id="tc_findClient_name" prefWidth="183.0" text="Name" />
+                      <TableColumn id="tc_findClient_phone" fx:id="tc_findClient_phone" prefWidth="122.0" text="Phone" />
+                        <TableColumn id="tc_findClient_recDate" fx:id="tc_findClient_recDate" prefWidth="173.0" text="Reg Date" />
+                        <TableColumn id="tc_findClient_loyalty" fx:id="tc_findClient_loyalty" prefWidth="79.0" text="Loyalty" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="22.0" layoutY="55.0" text="Name:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="122.0" text="Phone Number:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button id="btn_findClient_find" fx:id="btn_findClient_find" layoutX="398.0" layoutY="84.0" mnemonicParsing="false" onAction="#findClient" prefHeight="55.0" prefWidth="111.0" text="Button">
+                     <effect>
+                        <ImageInput>
+                           <source>
+                              <Image url="@/find_user_60px.png" />
+                           </source>
+                        </ImageInput>
+                     </effect>
+                  </Button>
+               </children></Pane>
          </children>
       </AnchorPane>
    </children>

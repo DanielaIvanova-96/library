@@ -30,4 +30,27 @@ public class Client extends User {
 		this.recordDate = LocalDate.now();
 	}
 
+	public Client(String name, String phone, String recordDate, int loyalty) {
+		this.name 		= name;
+		this.phoneNum 	= phone;
+		this.loyalty	= loyalty;
+		this.recordDate = LocalDate.parse(recordDate);
+	}
+
+	@Override
+	public String getName() {
+		return super.getName();
+	}
+
+	public int getLoyalty() {
+		return loyalty;
+	}
+
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	public String getRecordDate() {
+		return recordDate.toString();
+	}
 }
