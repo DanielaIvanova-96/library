@@ -159,7 +159,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button id="btn_addBook_add" fx:id="btn_addBook_add" layoutX="384.0" layoutY="343.0" mnemonicParsing="false" onAction="#addBook" prefHeight="55.0" prefWidth="131.0" text="ADD" visible="false">
+                  <Button id="btn_addBook_add" fx:id="btn_addBook_add" layoutX="384.0" layoutY="343.0" mnemonicParsing="false" onAction="#addBook" prefHeight="55.0" prefWidth="131.0" text="ADD">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
