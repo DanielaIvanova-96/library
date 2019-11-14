@@ -93,8 +93,13 @@ public class OperatorController implements Initializable {
 		Connection con = DBConnector.getConnection();
 		Statement st = con.createStatement();
 
-		String query = "INSERT INTO libr.books_info VALUES (default, '" + name + "', '" + number + "', "
-				+ "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + genre + "'));";
+		String query = "INSERT INTO libr.genres VALUES (default, '" + genre + "') "
+                + "ON DUPLICATE KEY UPDATE genre_name = '" + genre + "';";
+        st.executeUpdate(query);
+
+		query = "INSERT INTO libr.books_info VALUES (default, '" + name + "', '" + number + "', "
+				+ "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + genre + "'))" +
+                " ON DUPLICATE KEY UPDATE book_info_inv_num = '" + number +"';";
 
 		st.executeUpdate(query);
 
@@ -114,10 +119,12 @@ public class OperatorController implements Initializable {
 				+ "ON DUPLICATE KEY UPDATE author_name = '" + author + "';";
 		st.executeUpdate(query);
 
-		// TODO: connection authors_books
-		/*
-		 * query = "INSERT INTO libr."; st.executeUpdate(query);
-		 */
+		query = "INSERT INTO libr.authors_books VALUES ((SELECT authors.AUTHOR_ID from authors WHERE AUTHOR_NAME = '" + author + "'), " +
+                "(SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '" + name +"'));";
+		st.executeUpdate(query);
+
+		query= "INSERT INTO libr.books VALUES (default , 0, (SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '" + name +"'));";
+		st.executeUpdate(query);
 
 		tb_addBook_name.clear();
 		tb_addBook_author.clear();
