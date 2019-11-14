@@ -37,7 +37,6 @@ public class OperatorController implements Initializable {
 	@FXML
 	private Button btn_addBook, btn_removeBook, btn_addClient, btn_makeRent, btn_findBook, btn_findClient,
 			btn_Classification;
-
 	@FXML
 	private Pane pln_addBook, pln_removeBook, pln_addClient, pln_makeRent, pln_findBook, pln_findClient,
 			pln_Classification;
@@ -45,8 +44,7 @@ public class OperatorController implements Initializable {
 	/**
 	 * Changes the top pane according to the
 	 * 
-	 * @param event
-	 *            chosen button
+	 * @param event chosen button
 	 */
 	@FXML
 	private void buttonAction(ActionEvent event) {
@@ -82,9 +80,9 @@ public class OperatorController implements Initializable {
 		panes.put(btn_Classification, pln_Classification);
 	}
 
+	// add book block
 	@FXML
 	private TextField tb_addBook_name, tb_addBook_author, tb_addBook_genre, tb_addBook_number;
-
 	@FXML
 	private void addBook(ActionEvent event) throws SQLException {
 		String name = tb_addBook_name.getText();
@@ -128,9 +126,9 @@ public class OperatorController implements Initializable {
 
 	}
 
+	// remove book block
 	@FXML
 	private TextField tb_removeBook_name, tb_removeBook_number;
-
 	@FXML
 	private void removeBook(ActionEvent event) throws SQLException {
 		String name = tb_removeBook_name.getText();
@@ -159,14 +157,14 @@ public class OperatorController implements Initializable {
 		});
 	}
 
+	// find client block
 	@FXML
 	private TextField tb_findClient_name, tb_findClient_phone;
 	@FXML
-	private TableView tw_findClient;
+	private TableView tw_findClient;	
 	@FXML
 	public javafx.scene.control.TableColumn tc_findClient_name, tc_findClient_phone, tc_findClient_recDate,
 			tc_findClient_loyalty;
-
 	@FXML
 	private void findClient(ActionEvent event) throws SQLException {
 		String name = tb_findClient_name.getText();
@@ -203,9 +201,9 @@ public class OperatorController implements Initializable {
 
 	}
 
+	// find book block
 	@FXML
 	private TextField tb_findBook_name, tb_findBook_author, tb_findBook_genre, tb_findBook_condition;
-
 	@FXML
 	private void findBook(ActionEvent event) throws SQLException {
 		String name = tb_findBook_name.getText();
@@ -224,11 +222,11 @@ public class OperatorController implements Initializable {
 		 */
 	}
 
+	// add client block
 	@FXML
 	private TextField tb_addClient_name, tb_addClient_pass, tb_addClient_phone;
-
 	@FXML
-	private void addClient(ActionEvent event) throws SQLException {
+	private void addClient(ActionEvent event) {
 		String name = tb_addClient_name.getText();
 		String pass = tb_addClient_pass.getText();
 		String phone = tb_addClient_phone.getText();
@@ -253,16 +251,15 @@ public class OperatorController implements Initializable {
 			}
 		});
 
-		
 		tb_addClient_name.clear();
 		tb_addClient_pass.clear();
 		tb_addClient_phone.clear();
 
 	}
 
+	//make rent block
 	@FXML
 	private TextField tb_makeRent_cname, tb_makeRent_bname, tb_makeRent_takeDate;
-
 	@FXML
 	private void makeRent(ActionEvent event) throws SQLException {
 
