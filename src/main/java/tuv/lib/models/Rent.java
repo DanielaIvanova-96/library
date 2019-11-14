@@ -18,5 +18,4 @@ public class Rent {
 		this.returnDate = takeDate.plusDays(10);
 		
 	}
-	
 }

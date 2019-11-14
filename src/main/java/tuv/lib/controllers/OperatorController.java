@@ -293,4 +293,79 @@ public class OperatorController implements Initializable {
 		}
 
 	}
+
+
+    @FXML
+    private javafx.scene.control.TableColumn tc_class_name, tc_class_phone, tc_class_recDate, tc_class_loyalty;
+    @FXML
+    private TableView tw_class;
+    @FXML
+    private void classification_byLoyalty (ActionEvent event) throws SQLException{
+
+        tw_class.getItems().clear();
+        
+        Connection con = DBConnector.getConnection();
+        Statement st = con.createStatement();
+
+        String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY FROM libr.users WHERE USER_POSS = 2 and USER_LOYALTY >0;";
+
+
+        ResultSet rs = st.executeQuery(query);
+
+        while(rs.next()){
+            String res_name = rs.getString("USER_NAME");
+            String res_phone = rs.getString("USER_PH_NUM");
+            String res_date = rs.getString("USER_REC_DATE");
+            int res_loyalty = rs.getInt("USER_LOYALTY");
+
+
+            tc_class_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tc_class_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
+            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<>("recordDate"));
+            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<>("loyalty"));
+
+
+            // tw_findClient.getItems().addAll(tc_findClient_name, tc_findClient_phone, tc_findClient_loyalty, tc_findClient_recDate);
+
+            //tw_class.getItems().addAll(tc_class_name, tc_class_phone, tc_class_recDate, tc_class_loyalty);
+
+            tw_class.getItems().add(new Client(res_name, res_phone, res_date, res_loyalty));
+        }
+        rs.close();
+
+
+    }
+
+    @FXML
+    private void classification_byRecDate (ActionEvent event) throws SQLException{
+
+        tw_class.getItems().clear();
+
+        Connection con = DBConnector.getConnection();
+        Statement st = con.createStatement();
+
+        String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY FROM libr.users WHERE USER_POSS = 2" +
+                " ORDER BY USER_REC_DATE;";
+
+
+        ResultSet rs = st.executeQuery(query);
+
+        while(rs.next()){
+            String res_name = rs.getString("USER_NAME");
+            String res_phone = rs.getString("USER_PH_NUM");
+            String res_date = rs.getString("USER_REC_DATE");
+            int res_loyalty = rs.getInt("USER_LOYALTY");
+
+
+            tc_class_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tc_class_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
+            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<>("recordDate"));
+            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<>("loyalty"));
+
+
+            tw_class.getItems().add(new Client(res_name, res_phone, res_date, res_loyalty));
+        }
+        rs.close();
+
+    }
 }
