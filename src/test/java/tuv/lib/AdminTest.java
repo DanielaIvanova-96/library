@@ -29,6 +29,4 @@ public class AdminTest {
 		User u = admin.createOperator("testname", "testpass");
 		assertEquals(u.getPosstion(), Possition.OPERATOR);
 	}
-
-	
 }

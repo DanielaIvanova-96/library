@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
+import tuv.lib.models.Operator;
 import tuv.lib.models.User;
 import tuv.lib.models.UserServiceImpl;
 import tuv.lib.models.interfaces.BookService;
@@ -31,6 +32,7 @@ public class OperatorController implements Initializable {
 	private BookService bookService;
 	private final int panesCount = 7;
 	private Map<Button, Pane> panes;
+	private Operator operator;
 
 	@FXML
 	private Button btn_addBook, btn_removeBook, btn_addClient, btn_makeRent, btn_findBook, btn_findClient,
@@ -41,8 +43,10 @@ public class OperatorController implements Initializable {
 			pln_Classification;
 
 	/**
-	 * Changes the top pane according to the  
-	 * @param event chosen button
+	 * Changes the top pane according to the
+	 * 
+	 * @param event
+	 *            chosen button
 	 */
 	@FXML
 	private void buttonAction(ActionEvent event) {
@@ -59,6 +63,7 @@ public class OperatorController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		initializePanes();
 		userService = new UserServiceImpl();
+		operator = new Operator();
 		for (Map.Entry<Button, Pane> entry : panes.entrySet())
 			entry.getValue().setVisible(false);
 	}
@@ -228,53 +233,31 @@ public class OperatorController implements Initializable {
 		String pass = tb_addClient_pass.getText();
 		String phone = tb_addClient_phone.getText();
 
-		try {
-			Connection con = DBConnector.getConnection();
-			Statement st = con.createStatement();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal2 = Calendar.getInstance();
+		String date = dateFormat.format(cal2.getTime());
 
-			// INSERT INTO libr.users VALUES(USER_NAME, USER_PASSWORD, USER_POSS,
-			// USER_LOYALTY, USER_PH-NUM, USER_REC_DATE);
+		Client cl = operator.createClient(name, pass, date, phone);
 
-			/*
-			 * String query = "INSERT INTO libr.users\n" + "VALUES ('"+name+"', '"+ pass
-			 * +"', '2' , '0', '"+ phone + "', 'CURDATE()' );";
-			 */
+		userService.addClient(cl);
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar cal2 = Calendar.getInstance();
-			String date = dateFormat.format(cal2.getTime());
-
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO libr.users VALUES (default,?,?,?,?,?,?)",
-					Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, name);
-			stmt.setString(2, pass);
-			stmt.setInt(3, 2);
-			stmt.setInt(4, 0);
-			stmt.setString(5, phone);
-			stmt.setString(6, date);
-
-			stmt.executeUpdate();
-
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Success");
-			alert.setHeaderText("Records are successfully inserted! ");
-			// alert.setContentText("Please enter");
-			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-				public void accept(ButtonType rs) {
-					if (rs == ButtonType.OK) {
-						System.out.println("Pressed OK.");
-					}
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Success");
+		alert.setHeaderText("CLient is inserted successfully ! ");
+		// alert.setContentText("Please enter");
+		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
+			public void accept(ButtonType rs) {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
 				}
-			});
+			}
+		});
 
-			tb_addClient_name.clear();
-			tb_addClient_pass.clear();
-			tb_addClient_phone.clear();
+		
+		tb_addClient_name.clear();
+		tb_addClient_pass.clear();
+		tb_addClient_phone.clear();
 
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
 	}
 
 	@FXML

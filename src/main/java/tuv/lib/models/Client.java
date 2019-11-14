@@ -23,7 +23,7 @@ public class Client extends User {
 	// @Column(name = "USER_REC_DATE")
 	LocalDate recordDate;
 
-	public Client(String name, String pass, String phone) {
+	public Client(String name, String pass, String recordDate , String phone) {
 		super(name, pass, Possition.CLIENT);
 		this.phoneNum = phone;
 		this.loyalty = 0;

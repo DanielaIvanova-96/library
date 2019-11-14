@@ -16,12 +16,16 @@ public class UserServiceImpl implements UserService {
 		
 	public UserServiceImpl()
 	{
-		userDAO = new UserDAOImpl();
-		
+		userDAO = new UserDAOImpl();	
 	}
 	
 	public void addUser(User u) {
 		this.userDAO.addUser(u);		
+	}
+	
+	public void addClient(Client cl)
+	{
+		this.userDAO.addClient(cl);
 	}
 
 	public void removeUser(int id) {
