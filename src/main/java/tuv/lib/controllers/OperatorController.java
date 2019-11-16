@@ -1,5 +1,7 @@
 package tuv.lib.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -7,11 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import tuv.lib.models.Client;
-import tuv.lib.models.DBConnector;
-import tuv.lib.models.Operator;
-import tuv.lib.models.User;
-import tuv.lib.models.UserServiceImpl;
+import tuv.lib.models.*;
 import tuv.lib.models.interfaces.BookService;
 import tuv.lib.models.interfaces.UserService;
 
@@ -19,10 +17,7 @@ import javax.swing.table.TableColumn;
 import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -41,34 +36,114 @@ public class OperatorController implements Initializable {
 	private Pane pln_addBook, pln_removeBook, pln_addClient, pln_makeRent, pln_findBook, pln_findClient,
 			pln_Classification;
 
-	/**
-	 * Changes the top pane according to the
-	 * 
-	 * @param event chosen button
-	 */
-	@FXML
-	private void buttonAction(ActionEvent event) {
-		for (Map.Entry<Button, Pane> entry : panes.entrySet()) {
-			if (event.getSource() == entry.getKey()) {
-				entry.getValue().setVisible(true);
-			} else {
-				entry.getValue().setVisible(false);
-			}
-		}
-	}
 
-	// @Override
-	public void initialize(URL location, ResourceBundle resources) {
-		initializePanes();
-		userService = new UserServiceImpl();
-		operator = new Operator();
-		for (Map.Entry<Button, Pane> entry : panes.entrySet())
-			entry.getValue().setVisible(false);
-	}
 
-	/**
-	 * Initialize the connection between the buttons and the panes
-	 */
+
+    @FXML
+    private void buttonAction(ActionEvent event) {
+        for (Map.Entry<Button, Pane> entry : panes.entrySet()) {
+            if (event.getSource() == entry.getKey()) {
+                entry.getValue().setVisible(true);
+            } else {
+                entry.getValue().setVisible(false);
+            }
+        }
+    }
+
+    // @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initializePanes();
+        userService = new UserServiceImpl();
+        operator = new Operator();
+        for (Map.Entry<Button, Pane> entry : panes.entrySet())
+            entry.getValue().setVisible(false);
+
+        cb_findBook.setValue("Book Name");
+        cb_findBook.setItems(find_by);
+
+		tb_findBook_name.setEditable(true);
+		tb_findBook_name.setDisable(false);
+
+		tb_findBook_author.setEditable(false);
+		tb_findBook_author.setDisable(true);
+
+		tb_findBook_genre.setEditable(false);
+		tb_findBook_genre.setDisable(true);
+
+		tb_findBook_condition.setEditable(false);
+		tb_findBook_condition.setDisable(true);
+
+		EventHandler<ActionEvent> event =
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent e)
+					{
+						if(cb_findBook.getValue() == "Book Name"){
+							tb_findBook_name.setEditable(true);
+							tb_findBook_name.setDisable(false);
+
+							tb_findBook_author.setEditable(false);
+							tb_findBook_author.setDisable(true);
+
+							tb_findBook_genre.setEditable(false);
+							tb_findBook_genre.setDisable(true);
+
+							tb_findBook_condition.setEditable(false);
+							tb_findBook_condition.setDisable(true);
+						}
+
+						else if(cb_findBook.getValue() == "Book Author"){
+							tb_findBook_name.setEditable(false);
+							tb_findBook_name.setDisable(true);
+
+							tb_findBook_author.setEditable(true);
+							tb_findBook_author.setDisable(false);
+
+							tb_findBook_genre.setEditable(false);
+							tb_findBook_genre.setDisable(true);
+
+							tb_findBook_condition.setEditable(false);
+							tb_findBook_condition.setDisable(true);
+						}
+
+						else if(cb_findBook.getValue() == "Book Genre"){
+							tb_findBook_name.setEditable(false);
+							tb_findBook_name.setDisable(true);
+
+							tb_findBook_author.setEditable(false);
+							tb_findBook_author.setDisable(true);
+
+							tb_findBook_genre.setEditable(true);
+							tb_findBook_genre.setDisable(false);
+
+							tb_findBook_condition.setEditable(false);
+							tb_findBook_condition.setDisable(true);
+
+						}
+
+						else if(cb_findBook.getValue() == "Condition"){
+							tb_findBook_name.setEditable(false);
+							tb_findBook_name.setDisable(true);
+
+							tb_findBook_author.setEditable(false);
+							tb_findBook_author.setDisable(true);
+
+							tb_findBook_genre.setEditable(false);
+							tb_findBook_genre.setDisable(true);
+
+							tb_findBook_condition.setEditable(true);
+							tb_findBook_condition.setDisable(false);
+						}
+
+					}
+				};
+
+		// Set on action
+		cb_findBook.setOnAction(event);
+    }
+
+    /**
+     * Initialize the connection between the buttons and the panes
+     */
 	private void initializePanes() {
 		panes = new HashMap<Button, Pane>();
 		panes.put(btn_addBook, pln_addBook);
@@ -208,26 +283,149 @@ public class OperatorController implements Initializable {
 
 	}
 
-	// find book block
+    ObservableList<String> find_by = FXCollections.observableArrayList("Book Name", "Book Author", "Book Genre", "Condition");
 	@FXML
 	private TextField tb_findBook_name, tb_findBook_author, tb_findBook_genre, tb_findBook_condition;
 	@FXML
+    private ComboBox cb_findBook;
+	@FXML
+	private TableView tw_findBook;
+	@FXML
+	public javafx.scene.control.TableColumn tc_findBook_name, tc_findBook_author, tc_findBook_genre, tc_findBook_invNum, tc_findBook_condition ;
+	@FXML
 	private void findBook(ActionEvent event) throws SQLException {
-		String name = tb_findBook_name.getText();
-		String author = tb_findBook_author.getText();
-		String genre = tb_findBook_genre.getText();
-		String condition = tb_findBook_condition.getText();
+        String name = tb_findBook_name.getText();
+        String author = tb_findBook_author.getText();
+        String genre = tb_findBook_genre.getText();
+        String condition = tb_findBook_condition.getText();
 
-		/*
-		 * SELECT books_info.BOOK_INFO_NAME, authors.AUTHOR_NAME,
-		 * genres.GENRE_NAME,books_info.BOOK_INFO_INV_NUM, books.BOOK_CONDITION from
-		 * books_info join authors_books on authors_books.BOOK_NFO_ID =
-		 * books_info.BOOK_INFO_ID join authors on authors.AUTHOR_ID =
-		 * authors_books.AUTHOR_ID join genres on genres.GENRE_ID = books_info.GENRE_ID
-		 * join books on books.BOOK_INFO_ID = books_info.BOOK_INFO_ID WHERE
-		 * books_info.BOOK_INFO_NAME = "The notebook"
-		 */
-	}
+		Connection con = DBConnector.getConnection();
+		Statement st = con.createStatement();
+		String query;
+		ResultSet rs;
+
+		String res_name,res_author, res_genre, res_inv_num;
+		//List<String> res_author = new ArrayList<String>();
+
+		int res_condition;
+
+        if(cb_findBook.getValue() == "Book Name"){
+        	query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION" +
+					" FROM libr.books_info" +
+					" JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID" +
+					" JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID" +
+					" JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID" +
+					" JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" +
+					" WHERE BOOK_INFO_NAME = '" + name + "'" +
+					" ORDER BY BOOK_ID, AUTHOR_NAME ;";
+
+        	rs = st.executeQuery(query);
+
+        	while(rs.next()){
+        		res_name = rs.getString("BOOK_INFO_NAME");
+        		res_author = rs.getString("AUTHOR_NAME");
+        		res_genre = rs.getString("GENRE_NAME");
+        		res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
+        		res_condition = rs.getInt("BOOK_CONDITION");
+
+        		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
+        		tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+        		tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
+        		tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+
+        		tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
+			}
+		}
+
+		if(cb_findBook.getValue() == "Book Author"){
+			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION" +
+					" FROM libr.books_info" +
+					" JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID" +
+					" JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID" +
+					" JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID" +
+					" JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" +
+					" WHERE AUTHOR_NAME = '" + author + "'" +
+					" ORDER BY BOOK_ID, AUTHOR_NAME ;";
+
+			rs = st.executeQuery(query);
+
+			while(rs.next()){
+				res_name = rs.getString("BOOK_INFO_NAME");
+				res_author = rs.getString("AUTHOR_NAME");
+				res_genre = rs.getString("GENRE_NAME");
+				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
+				res_condition = rs.getInt("BOOK_CONDITION");
+
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+
+				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
+			}
+		}
+
+		if(cb_findBook.getValue() == "Book Genre"){
+			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION" +
+					" FROM libr.books_info" +
+					" JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID" +
+					" JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID" +
+					" JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID" +
+					" JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" +
+					" WHERE GENRE_NAME = '" + genre + "'" +
+					" ORDER BY BOOK_ID, AUTHOR_NAME ;";
+
+			rs = st.executeQuery(query);
+
+			while(rs.next()){
+				res_name = rs.getString("BOOK_INFO_NAME");
+				res_author = rs.getString("AUTHOR_NAME");
+				res_genre = rs.getString("GENRE_NAME");
+				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
+				res_condition = rs.getInt("BOOK_CONDITION");
+
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+
+				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
+			}
+		}
+
+		if(cb_findBook.getValue() == "Condition"){
+			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION" +
+					" FROM libr.books_info" +
+					" JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID" +
+					" JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID" +
+					" JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID" +
+					" JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" +
+					" WHERE BOOK_CONDITION = '" + condition + "'" +
+					" ORDER BY BOOK_ID, AUTHOR_NAME ;";
+
+			rs = st.executeQuery(query);
+
+			while(rs.next()){
+				res_name = rs.getString("BOOK_INFO_NAME");
+				res_author = rs.getString("AUTHOR_NAME");
+				res_genre = rs.getString("GENRE_NAME");
+				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
+				res_condition = rs.getInt("BOOK_CONDITION");
+
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+
+				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
+			}
+		}
+
+    }
 
 	// add client block
 	@FXML
@@ -270,6 +468,18 @@ public class OperatorController implements Initializable {
 	@FXML
 	private void makeRent(ActionEvent event) throws SQLException {
 
+
+		/*SELECT books.BOOK_ID,rents.RENT_STATUS
+		FROM (
+				SELECT books.BOOK_ID
+				from books
+				join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID
+				WHERE books_info.BOOK_INFO_NAME = 'The Notebook'
+		) books
+		left JOIN rents on rents.BOOK_ID = books.BOOK_ID
+		where rents.RENT_STATUS is null or rents.RENT_STATUS = 1
+		LIMIT 1;*/
+
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
@@ -303,7 +513,7 @@ public class OperatorController implements Initializable {
     private void classification_byLoyalty (ActionEvent event) throws SQLException{
 
         tw_class.getItems().clear();
-        
+
         Connection con = DBConnector.getConnection();
         Statement st = con.createStatement();
 
