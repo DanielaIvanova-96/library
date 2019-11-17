@@ -134,4 +134,38 @@ public class UserDAOImpl implements UserDAO {
 		return clinetsRes;
 	}
 
+	public List<Client> classifyClients(String classProperty) {
+		Connection con = DBConnector.getConnection();
+		Statement st;
+		String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY FROM libr.users WHERE USER_POSS = 2  ";
+
+		if (classProperty.equals("loyalty")) {
+			query = query + " and USER_LOYALTY >0 ORDER BY USER_LOYALTY ;";
+
+		} else {
+			query = query + "ORDER BY USER_REC_DATE ;";
+		}
+
+		List<Client> clinetsRes = new ArrayList<Client>();
+		try {
+			st = con.createStatement();
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				String res_name = rs.getString("USER_NAME");
+				String res_phone = rs.getString("USER_PH_NUM");
+				String res_date = rs.getString("USER_REC_DATE");
+				int res_loyalty = rs.getInt("USER_LOYALTY");
+
+				clinetsRes.add(new Client(res_name, res_phone, res_date, res_loyalty));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return clinetsRes;
+	}
+
 }

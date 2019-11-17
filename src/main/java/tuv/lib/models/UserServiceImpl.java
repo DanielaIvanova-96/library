@@ -48,6 +48,10 @@ public class UserServiceImpl implements UserService {
 	{		
 		return this.userDAO.findClients(name);
 	}
+
+	public List<Client> classifyClients(String classProperty) {
+		return this.userDAO.classifyClients(classProperty);
+	}
 	
 	
 	
