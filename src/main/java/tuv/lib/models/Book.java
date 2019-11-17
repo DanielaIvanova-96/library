@@ -8,12 +8,12 @@ public class Book {
 	String invNumber;
 	String genre;
 	int condition;
-	//List <String> authors;
-	String authors;
+	List <String> authors;
+	//String authors;
 
 	public Book(){}
 
-	public Book(String name,String authors,String genre, String invNum, int condition ){
+	public Book(String name,List<String> authors,String genre, String invNum, int condition ){
 		this.name = name;
 		this.invNumber = invNum;
 		this.genre = genre;
@@ -36,6 +36,6 @@ public class Book {
 	public int getCondition() { return this.condition; }
 	public void setCondition(int condition) {this.condition = condition;}
 
-	public String getAuthors() {return this.authors; }
-	public void setAuthors(String authors) {this.authors = authors; }
+	public List<String> getAuthors() {return this.authors; }
+	public void setAuthors(List<String> authors) {this.authors = authors; }
 }

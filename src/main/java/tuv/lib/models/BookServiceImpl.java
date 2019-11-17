@@ -3,6 +3,7 @@ package tuv.lib.models;
 import java.util.List;
 
 import tuv.lib.models.dao.BookDAO;
+import tuv.lib.models.dao.BookDAOImpl;
 import tuv.lib.models.interfaces.BookService;
 
 /**
@@ -13,6 +14,11 @@ import tuv.lib.models.interfaces.BookService;
 public class BookServiceImpl implements BookService {
 	private BookDAO bookDAO;
 
+	public BookServiceImpl()
+	{
+		bookDAO = new BookDAOImpl(); 
+	}
+	
 	public void addBook(Book b) {
 		bookDAO.addBook(b);
 	}
@@ -25,7 +31,7 @@ public class BookServiceImpl implements BookService {
 		bookDAO.removeBook(id);
 	}
 
-	public Book getBookbyName(String name) {
+	public List<Book> getBookbyName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

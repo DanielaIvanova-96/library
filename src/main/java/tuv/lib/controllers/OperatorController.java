@@ -277,7 +277,23 @@ public class OperatorController implements Initializable {
 	@FXML
 	public javafx.scene.control.TableColumn tc_findBook_name, tc_findBook_author, tc_findBook_genre, tc_findBook_invNum,
 			tc_findBook_condition;
+	
+	
+	private void displayBooks(Map<Integer,Book> books)
+	{	
+		tw_findBook.getItems().clear();
+		
+		for (Map.Entry<Integer, Book> entry : books.entrySet()) {
+			tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+			tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+			tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+			tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+			tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
+			tw_findBook.getItems().add(entry.getValue());
+		}
+	}
+	
 	@FXML
 	private void findBook(ActionEvent event) throws SQLException {
 		String name = tb_findBook_name.getText();
@@ -290,121 +306,170 @@ public class OperatorController implements Initializable {
 		String query;
 		ResultSet rs;
 
+	
+		
+		Map<Integer, Book> books = new HashMap<Integer, Book>();
+
 		String res_name, res_author, res_genre, res_inv_num;
+		int res_id;
 		// List<String> res_author = new ArrayList<String>();
 
 		int res_condition;
 
 		if (cb_findBook.getValue() == "Book Name") {
+			//tb_findBook_name.clear();
+			tb_findBook_author.clear();
+			tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
+			
+			
+			
 			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION"
 					+ " FROM libr.books_info"
 					+ " JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID"
 					+ " JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID"
 					+ " JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID"
-					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE BOOK_INFO_NAME = '" + name
-					+ "'" + " ORDER BY BOOK_ID, AUTHOR_NAME ;";
+					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID WHERE BOOK_INFO_NAME LIKE '%" + name
+					+ "%' ;";
 
 			rs = st.executeQuery(query);
 
 			while (rs.next()) {
+				res_id = rs.getInt("BOOK_ID");
 				res_name = rs.getString("BOOK_INFO_NAME");
 				res_author = rs.getString("AUTHOR_NAME");
 				res_genre = rs.getString("GENRE_NAME");
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
+				if (books.containsKey(res_id)) {
+					books.get(res_id).getAuthors().add(res_author);
+				} else {
+					List<String> authors = new ArrayList<String>();
+					authors.add(res_author);
+					books.put(res_id, new Book(res_name, authors, res_genre, res_inv_num, res_condition));
+				}
 
-				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
+			
+			this.displayBooks(books);
+		
 		}
 
 		if (cb_findBook.getValue() == "Book Author") {
+
+			tb_findBook_name.clear();
+			//tb_findBook_author.clear();
+			tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
+			
+			
 			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION"
 					+ " FROM libr.books_info"
 					+ " JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID"
 					+ " JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID"
 					+ " JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID"
-					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE AUTHOR_NAME = '" + author
-					+ "'" + " ORDER BY BOOK_ID, AUTHOR_NAME ;";
+					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE AUTHOR_NAME LIKE '%" + author
+					+ "%' ;";
 
 			rs = st.executeQuery(query);
 
 			while (rs.next()) {
+				res_id = rs.getInt("BOOK_ID");
 				res_name = rs.getString("BOOK_INFO_NAME");
 				res_author = rs.getString("AUTHOR_NAME");
 				res_genre = rs.getString("GENRE_NAME");
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
+				if (books.containsKey(res_id)) {
+					books.get(res_id).getAuthors().add(res_author);
+				} else {
+					List<String> authors = new ArrayList<String>();
+					authors.add(res_author);
+					books.put(res_id, new Book(res_name, authors, res_genre, res_inv_num, res_condition));
+				}
 
-				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
+			
+			this.displayBooks(books);
 		}
 
 		if (cb_findBook.getValue() == "Book Genre") {
+
+			tb_findBook_name.clear();
+			tb_findBook_author.clear();
+			//tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
+			
 			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION"
 					+ " FROM libr.books_info"
 					+ " JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID"
 					+ " JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID"
 					+ " JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID"
-					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE GENRE_NAME = '" + genre
-					+ "'" + " ORDER BY BOOK_ID, AUTHOR_NAME ;";
+					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE GENRE_NAME LIKE '%" + genre
+					+ "%' ;";
 
 			rs = st.executeQuery(query);
 
 			while (rs.next()) {
+				res_id = rs.getInt("BOOK_ID");
 				res_name = rs.getString("BOOK_INFO_NAME");
 				res_author = rs.getString("AUTHOR_NAME");
 				res_genre = rs.getString("GENRE_NAME");
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
+				if (books.containsKey(res_id)) {
+					books.get(res_id).getAuthors().add(res_author);
+				} else {
+					List<String> authors = new ArrayList<String>();
+					authors.add(res_author);
+					books.put(res_id, new Book(res_name, authors, res_genre, res_inv_num, res_condition));
+				}
 
-				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
+			
+			this.displayBooks(books);
 		}
 
 		if (cb_findBook.getValue() == "Condition") {
+		
+			tb_findBook_name.clear();
+			tb_findBook_author.clear();
+			tb_findBook_genre.clear();
+			//tb_findBook_condition.clear();
+			
+			
 			query = "SELECT BOOK_ID, BOOK_INFO_NAME, AUTHOR_NAME, GENRE_NAME, BOOK_INFO_INV_NUM, BOOK_CONDITION"
 					+ " FROM libr.books_info"
 					+ " JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID"
 					+ " JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID"
 					+ " JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID"
-					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE BOOK_CONDITION = '"
-					+ condition + "'" + " ORDER BY BOOK_ID, AUTHOR_NAME ;";
+					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE BOOK_CONDITION < "
+					+ condition + " ;";
 
 			rs = st.executeQuery(query);
 
 			while (rs.next()) {
+				res_id = rs.getInt("BOOK_ID");
 				res_name = rs.getString("BOOK_INFO_NAME");
 				res_author = rs.getString("AUTHOR_NAME");
 				res_genre = rs.getString("GENRE_NAME");
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
+				if (books.containsKey(res_id)) {
+					books.get(res_id).getAuthors().add(res_author);
+				} else {
+					List<String> authors = new ArrayList<String>();
+					authors.add(res_author);
+					books.put(res_id, new Book(res_name, authors, res_genre, res_inv_num, res_condition));
+				}
 
-				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
+			
+			this.displayBooks(books);
 		}
 
 	}
@@ -456,18 +521,15 @@ public class OperatorController implements Initializable {
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
 
-		String id_book = "SELECT books.BOOK_ID" +
-				" FROM (" +
-				"SELECT books.BOOK_ID" +
-				" from books" +
-				" join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID" +
-				" WHERE books_info.BOOK_INFO_NAME = '" + book_name +"'" + ") books" +
-				" left JOIN rents on rents.BOOK_ID = books.BOOK_ID" +
-				" where rents.RENT_STATUS is null or rents.RENT_STATUS = 1 limit 1;";
+		String id_book = "SELECT books.BOOK_ID" + " FROM (" + "SELECT books.BOOK_ID" + " from books"
+				+ " join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
+				+ " WHERE books_info.BOOK_INFO_NAME = '" + book_name + "'" + ") books"
+				+ " left JOIN rents on rents.BOOK_ID = books.BOOK_ID"
+				+ " where rents.RENT_STATUS is null or rents.RENT_STATUS = 1 limit 1;";
 
 		rs = st.executeQuery(id_book);
 
-		if(rs.next()){
+		if (rs.next()) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information");
 			alert.setHeaderText("Found records!! ");
@@ -482,9 +544,9 @@ public class OperatorController implements Initializable {
 
 			int res_id_book = rs.getInt("BOOK_ID");
 
-			String query = "INSERT INTO rents VALUES " +
-					"(default, '" + date + "', (SELECT DATE_ADD('" + date + "', INTERVAL 20 DAY)), " +
-					res_id_book + ", (SELECT users.USER_ID from users where users.USER_NAME = '" + client_name +"'), 0);";
+			String query = "INSERT INTO rents VALUES " + "(default, '" + date + "', (SELECT DATE_ADD('" + date
+					+ "', INTERVAL 20 DAY)), " + res_id_book
+					+ ", (SELECT users.USER_ID from users where users.USER_NAME = '" + client_name + "'), 0);";
 
 			st.executeUpdate(query);
 
@@ -499,8 +561,7 @@ public class OperatorController implements Initializable {
 				}
 			});
 
-		}
-		else{
+		} else {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information");
 			alert.setHeaderText("Records not found!! ");
@@ -515,20 +576,20 @@ public class OperatorController implements Initializable {
 
 		}
 	}
+
 	@FXML
-	private void closeRent(ActionEvent event) throws SQLException{
+	private void closeRent(ActionEvent event) throws SQLException {
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
 		Connection con = DBConnector.getConnection();
 		Statement st = con.createStatement();
 
-		String query = "UPDATE libr.rents " +
-				" JOIN books on books.BOOK_ID = rents.BOOK_ID" +
-				" JOIN books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID" +
-				" JOIN users on users.USER_ID = rents.USER_ID" +
-				" SET rents.RENT_STATUS = 1, books.BOOK_CONDITION = books.BOOK_CONDITION+1" +
-				" WHERE users.USER_NAME = '" + client_name +"' AND books_info.BOOK_INFO_NAME = '" + book_name +"';";
+		String query = "UPDATE libr.rents " + " JOIN books on books.BOOK_ID = rents.BOOK_ID"
+				+ " JOIN books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
+				+ " JOIN users on users.USER_ID = rents.USER_ID"
+				+ " SET rents.RENT_STATUS = 1, books.BOOK_CONDITION = books.BOOK_CONDITION+1"
+				+ " WHERE users.USER_NAME = '" + client_name + "' AND books_info.BOOK_INFO_NAME = '" + book_name + "';";
 
 		st.executeUpdate(query);
 
@@ -539,6 +600,7 @@ public class OperatorController implements Initializable {
 		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
 			public void accept(ButtonType rs) {
 				if (rs == ButtonType.OK) {
+
 					System.out.println("Pressed OK.");
 				}
 			}
@@ -574,7 +636,7 @@ public class OperatorController implements Initializable {
 		tw_class.getItems().clear();
 
 		List<Client> res = userService.classifyClients(" ");
-		
+
 		for (int i = 0; i < res.size(); i++) {
 			tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
 			tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));

@@ -8,51 +8,46 @@ import tuv.lib.models.dao.UserDAOImpl;
 import tuv.lib.models.interfaces.UserService;
 
 /**
- * Service used in controllers for communication with the database for the user models
+ * Service used in controllers for communication with the database for the user
+ * models
+ * 
  * @author Zheni
  */
 public class UserServiceImpl implements UserService {
 
-	private static UserDAO userDAO;
-		
-	public UserServiceImpl()
-	{
-		userDAO = new UserDAOImpl();	
+	private UserDAO userDAO;
+
+	public UserServiceImpl() {
+		userDAO = new UserDAOImpl();
 	}
-	
+
 	public void addUser(User u) {
-		this.userDAO.addUser(u);		
+		this.userDAO.addUser(u);
 	}
-	
-	public void addClient(Client cl)
-	{
+
+	public void addClient(Client cl) {
 		this.userDAO.addClient(cl);
 	}
 
 	public void removeUser(int id) {
-		this.userDAO.removeUser(id);		
+		this.userDAO.removeUser(id);
 	}
-	
 
-	public int getUserPos(String name, String password)
-	{
+	public int getUserPos(String name, String password) {
 		try {
-			return this.userDAO.getUserPos(name, password);			
+			return this.userDAO.getUserPos(name, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1;		
+		return -1;
 	}
 
-	public List<Client> findClients(String name)
-	{		
+	public List<Client> findClients(String name) {
 		return this.userDAO.findClients(name);
 	}
 
 	public List<Client> classifyClients(String classProperty) {
 		return this.userDAO.classifyClients(classProperty);
 	}
-	
-	
-	
+
 }
