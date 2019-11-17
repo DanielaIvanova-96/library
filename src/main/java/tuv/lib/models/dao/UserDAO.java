@@ -13,5 +13,7 @@ public interface UserDAO {
 	public void updateUser(User u);
 	public void removeUser(int id);
 	public List<User> listUsers();
+	public List<Client> findClients(String name);
+	public List<Client> classifyClients(String classProperty);
 	public int getUserPos(String name,String password) throws SQLException ;
 }

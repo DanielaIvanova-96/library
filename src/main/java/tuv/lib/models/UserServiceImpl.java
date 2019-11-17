@@ -1,6 +1,7 @@
 package tuv.lib.models;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import tuv.lib.models.dao.UserDAO;
 import tuv.lib.models.dao.UserDAOImpl;
@@ -43,4 +44,15 @@ public class UserServiceImpl implements UserService {
 		return -1;		
 	}
 
+	public List<Client> findClients(String name)
+	{		
+		return this.userDAO.findClients(name);
+	}
+
+	public List<Client> classifyClients(String classProperty) {
+		return this.userDAO.classifyClients(classProperty);
+	}
+	
+	
+	
 }
