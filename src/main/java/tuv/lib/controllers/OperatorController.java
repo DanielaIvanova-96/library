@@ -36,9 +36,6 @@ public class OperatorController implements Initializable {
 	private Pane pln_addBook, pln_removeBook, pln_addClient, pln_makeRent, pln_findBook, pln_findClient,
 			pln_Classification;
 
-
-
-
     @FXML
     private void buttonAction(ActionEvent event) {
         for (Map.Entry<Button, Pane> entry : panes.entrySet()) {
@@ -252,34 +249,19 @@ public class OperatorController implements Initializable {
 		String name = tb_findClient_name.getText();
 		String phone = tb_findClient_phone.getText();
 
-		// SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY FROM USERS WHERE
-		// USER_NAME = name AND USER_PHONE = phone;
+		List<Client>res = userService.findClients(name);
 
-		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
-
-		String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY\r" + "FROM libr.users\r\n"
-				+ "WHERE USER_NAME = \"" + name + "\" AND USER_PH_NUM = \"" + phone + "\"; ";
-
-		ResultSet rs = st.executeQuery(query);
-
-		while (rs.next()) {
-			String res_name = rs.getString("USER_NAME");
-			String res_phone = rs.getString("USER_PH_NUM");
-			String res_date = rs.getString("USER_REC_DATE");
-			int res_loyalty = rs.getInt("USER_LOYALTY");
-
+		//ZM not sure how this works 
+		for (int i = 0; i < res.size(); i++) {
 			tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
 			tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
 			tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 			tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
-
-			// tw_findClient.getItems().addAll(tc_findClient_name, tc_findClient_phone,
-			// tc_findClient_loyalty, tc_findClient_recDate);
-
-			tw_findClient.getItems().add(new Client(res_name, res_phone, res_date, res_loyalty));
+			
+			//tw_findClient.getItems().addAll(res.get(i).getName(), res.get(i).getPhoneNum(), res.get(i).getLoyalty(), res.get(i).getRecordDate());
+			
+			tw_findClient.getItems().add(res.get(i));
 		}
-		rs.close();
 
 	}
 
@@ -328,11 +310,11 @@ public class OperatorController implements Initializable {
         		res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
         		res_condition = rs.getInt("BOOK_CONDITION");
 
-        		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
-        		tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-        		tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
-        		tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+        		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+        		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+        		tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+        		tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+        		tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
         		tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
@@ -357,11 +339,11 @@ public class OperatorController implements Initializable {
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
 				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
@@ -386,11 +368,11 @@ public class OperatorController implements Initializable {
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
 				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
@@ -415,11 +397,11 @@ public class OperatorController implements Initializable {
 				res_inv_num = rs.getString("BOOK_INFO_INV_NUM");
 				res_condition = rs.getInt("BOOK_CONDITION");
 
-				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<>("Authors"));
-				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
-				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<>("invNumber"));
-				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<>("Condition"));
+				tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+				tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+				tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+				tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+				tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
 				tw_findBook.getItems().add(new Book(res_name, res_author, res_genre, res_inv_num, res_condition));
 			}
@@ -447,14 +429,7 @@ public class OperatorController implements Initializable {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Success");
 		alert.setHeaderText("CLient is inserted successfully ! ");
-		// alert.setContentText("Please enter");
-		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-			public void accept(ButtonType rs) {
-				if (rs == ButtonType.OK) {
-					System.out.println("Pressed OK.");
-				}
-			}
-		});
+		alert.showAndWait();
 
 		tb_addClient_name.clear();
 		tb_addClient_pass.clear();
@@ -529,10 +504,10 @@ public class OperatorController implements Initializable {
             int res_loyalty = rs.getInt("USER_LOYALTY");
 
 
-            tc_class_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-            tc_class_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
-            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<>("recordDate"));
-            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<>("loyalty"));
+            tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
+            tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
+            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
+            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 
 
             // tw_findClient.getItems().addAll(tc_findClient_name, tc_findClient_phone, tc_findClient_loyalty, tc_findClient_recDate);
@@ -567,10 +542,10 @@ public class OperatorController implements Initializable {
             int res_loyalty = rs.getInt("USER_LOYALTY");
 
 
-            tc_class_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-            tc_class_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
-            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<>("recordDate"));
-            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<>("loyalty"));
+            tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
+            tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
+            tc_class_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
+            tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 
 
             tw_class.getItems().add(new Client(res_name, res_phone, res_date, res_loyalty));

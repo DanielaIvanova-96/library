@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -13,6 +14,7 @@ import org.hibernate.SessionFactory;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
 import tuv.lib.models.User;
@@ -84,19 +86,52 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
-	public int getUserPos(String name, String password) throws SQLException {
+	public int getUserPos(String name, String password) {
 		String query = "SELECT USER_POSS\r\n" + "FROM libr.users\r\n" + "WHERE USER_NAME = \"" + name
 				+ "\" AND USER_PASSWORD = \"" + password + "\"; ";
 
 		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
-		ResultSet rs = st.executeQuery(query);
-
-		if (rs.next()) {
-			return rs.getInt(1);
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
 		return -1;
+	}
+
+	public List<Client> findClients(String name) {
+
+		Connection con = DBConnector.getConnection();
+		Statement st;
+		List<Client> clinetsRes = new ArrayList<Client>();
+		try {
+			st = con.createStatement();
+
+			String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY\r" + "FROM libr.users\r\n"
+					+ "WHERE USER_NAME LIKE \"%" + name + "%\"; ";
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				String res_name = rs.getString("USER_NAME");
+				String res_phone = rs.getString("USER_PH_NUM");
+				String res_date = rs.getString("USER_REC_DATE");
+				int res_loyalty = rs.getInt("USER_LOYALTY");
+
+				clinetsRes.add(new Client(res_name, res_phone, res_date, res_loyalty));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return clinetsRes;
 	}
 
 }
