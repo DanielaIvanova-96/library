@@ -464,44 +464,108 @@ public class OperatorController implements Initializable {
 
 	//make rent block
 	@FXML
-	private TextField tb_makeRent_cname, tb_makeRent_bname, tb_makeRent_takeDate;
+	private TextField tb_makeRent_cname, tb_makeRent_bname;
 	@FXML
 	private void makeRent(ActionEvent event) throws SQLException {
-
-
-		/*SELECT books.BOOK_ID,rents.RENT_STATUS
-		FROM (
-				SELECT books.BOOK_ID
-				from books
-				join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID
-				WHERE books_info.BOOK_INFO_NAME = 'The Notebook'
-		) books
-		left JOIN rents on rents.BOOK_ID = books.BOOK_ID
-		where rents.RENT_STATUS is null or rents.RENT_STATUS = 1
-		LIMIT 1;*/
 
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
-		try {
-			Connection con = DBConnector.getConnection();
-			Statement st = con.createStatement();
+		Connection con = DBConnector.getConnection();
+		Statement st = con.createStatement();
+		ResultSet rs;
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar cal = Calendar.getInstance();
-			String date = dateFormat.format(cal.getTime());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		String date = dateFormat.format(cal.getTime());
 
-			String query = "INSERT INTO libr.rents (default, take_date, realise_date, book_id, user_id, rent_status)"
-					+ "SELECT ' " + date + "', (SELECT DATE_ADD(" + date
-					+ ", INTERVAL 20 DAY)), b.book_id, u.user_id, '0'" + "FROM libr.books_info b, libr.users u \n"
-					+ "WHERE b.book_name = " + book_name + "\rAND u.user_name = " + client_name + ";";
+		String id_book = "SELECT books.BOOK_ID" +
+				" FROM (" +
+				"SELECT books.BOOK_ID" +
+				" from books" +
+				" join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID" +
+				" WHERE books_info.BOOK_INFO_NAME = '" + book_name +"'" + ") books" +
+				" left JOIN rents on rents.BOOK_ID = books.BOOK_ID" +
+				" where rents.RENT_STATUS is null or rents.RENT_STATUS = 1 limit 1;";
+
+		rs = st.executeQuery(id_book);
+
+		if(rs.next()){
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Information");
+			alert.setHeaderText("Found records!! ");
+			// alert.setContentText("Please enter");
+			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
+				public void accept(ButtonType rs) {
+					if (rs == ButtonType.OK) {
+						System.out.println("Pressed OK.");
+					}
+				}
+			});
+
+			int res_id_book = rs.getInt("BOOK_ID");
+
+			String query = "INSERT INTO rents VALUES " +
+					"(default, '" + date + "', (SELECT DATE_ADD('" + date + "', INTERVAL 20 DAY)), " +
+					res_id_book + ", (SELECT users.USER_ID from users where users.USER_NAME = '" + client_name +"'), 0);";
 
 			st.executeUpdate(query);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			Alert alert_2 = new Alert(Alert.AlertType.INFORMATION);
+			alert_2.setTitle("Information");
+			alert_2.setHeaderText("The rent is successfully made !!");
+			alert_2.showAndWait().ifPresent(new Consumer<ButtonType>() {
+				public void accept(ButtonType rs) {
+					if (rs == ButtonType.OK) {
+						System.out.println("Pressed OK.");
+					}
+				}
+			});
 
+		}
+		else{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Information");
+			alert.setHeaderText("Records not found!! ");
+			// alert.setContentText("Please enter");
+			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
+				public void accept(ButtonType rs) {
+					if (rs == ButtonType.OK) {
+						System.out.println("Pressed OK.");
+					}
+				}
+			});
+
+		}
+	}
+	@FXML
+	private void closeRent(ActionEvent event) throws SQLException{
+		String book_name = tb_makeRent_bname.getText();
+		String client_name = tb_makeRent_cname.getText();
+
+		Connection con = DBConnector.getConnection();
+		Statement st = con.createStatement();
+
+		String query = "UPDATE libr.rents " +
+				" JOIN books on books.BOOK_ID = rents.BOOK_ID" +
+				" JOIN books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID" +
+				" JOIN users on users.USER_ID = rents.USER_ID" +
+				" SET rents.RENT_STATUS = 1, books.BOOK_CONDITION = books.BOOK_CONDITION+1" +
+				" WHERE users.USER_NAME = '" + client_name +"' AND books_info.BOOK_INFO_NAME = '" + book_name +"';";
+
+		st.executeUpdate(query);
+
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Information");
+		alert.setHeaderText("The rent is successfully closed!!");
+		// alert.setContentText("Please enter");
+		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
+			public void accept(ButtonType rs) {
+				if (rs == ButtonType.OK) {
+					System.out.println("Pressed OK.");
+				}
+			}
+		});
 	}
 
 

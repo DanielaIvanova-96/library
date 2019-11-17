@@ -227,9 +227,9 @@
                </children></Pane>
             <Pane fx:id="pln_makeRent" layoutY="-5.0" prefHeight="451.0" prefWidth="583.0">
                <children>
-                  <TextField id="tb_" layoutX="217.0" layoutY="67.0" prefHeight="37.0" prefWidth="150.0" />
-                  <TextField layoutX="217.0" layoutY="136.0" prefHeight="37.0" prefWidth="150.0" />
-                  <Button layoutX="85.0" layoutY="319.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
+                  <TextField id="tb_makeRent_cname" fx:id="tb_makeRent_cname" layoutX="217.0" layoutY="67.0" prefHeight="37.0" prefWidth="150.0" />
+                  <TextField id="tb_makeRent_bname" fx:id="tb_makeRent_bname" layoutX="217.0" layoutY="136.0" prefHeight="37.0" prefWidth="150.0" />
+                  <Button layoutX="85.0" layoutY="319.0" mnemonicParsing="false" onAction="#makeRent" prefHeight="55.0" prefWidth="90.0" text="Button">
                      <effect>
                         <ImageInput>
                            <source>
@@ -238,7 +238,7 @@
                         </ImageInput>
                      </effect>
                   </Button>
-                  <Button layoutX="401.0" layoutY="319.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
+                  <Button layoutX="401.0" layoutY="319.0" mnemonicParsing="false" onAction="#closeRent" prefHeight="55.0" prefWidth="90.0" text="Button">
                      <effect>
                         <ImageInput>
                            <source>
@@ -257,12 +257,6 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="91.0" layoutY="215.0" text="Take Date:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField layoutX="218.0" layoutY="203.0" prefHeight="37.0" prefWidth="149.0" />
                </children></Pane>
             <Pane fx:id="pln_findBook" layoutY="-11.0" prefHeight="457.0" prefWidth="583.0" visible="false">
                <children>
