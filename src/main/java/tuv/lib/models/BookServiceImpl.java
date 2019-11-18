@@ -7,18 +7,19 @@ import tuv.lib.models.dao.BookDAOImpl;
 import tuv.lib.models.interfaces.BookService;
 
 /**
- * Service used in controllers for communication with the database for the books models
+ * Service used in controllers for communication with the database for the books
+ * models
+ * 
  * @author Zheni
  *
  */
 public class BookServiceImpl implements BookService {
 	private BookDAO bookDAO;
 
-	public BookServiceImpl()
-	{
-		bookDAO = new BookDAOImpl(); 
+	public BookServiceImpl() {
+		bookDAO = new BookDAOImpl();
 	}
-	
+
 	public void addBook(Book b) {
 		bookDAO.addBook(b);
 	}
@@ -32,17 +33,18 @@ public class BookServiceImpl implements BookService {
 	}
 
 	public List<Book> getBookbyName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.getBookByName(name);
 	}
 
 	public List<Book> getBooksByAuthor(String author) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.getBookByAuthor(author);
 	}
 
 	public List<Book> getBooksByGenre(String genre) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.getBookByGenre(genre);
+	}
+
+	public List<Book> getBookByCondition(int condition) {
+		return bookDAO.getBookByCondition(condition);
 	}
 }

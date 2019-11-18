@@ -11,4 +11,5 @@ public interface BookService {
 	public List<Book> getBookbyName(String name);
 	public List<Book> getBooksByAuthor(String author);
 	public List<Book> getBooksByGenre(String genre);
+	public List<Book> getBookByCondition(int condition);
 }
