@@ -25,7 +25,6 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class OperatorController implements Initializable {
 	private UserService userService;
 	private BookService bookService;
-	private final int panesCount = 7;
 	private Map<Button, Pane> panes;
 	private Operator operator;
 
@@ -156,15 +155,15 @@ public class OperatorController implements Initializable {
 	private TextField tb_addBook_name, tb_addBook_author, tb_addBook_genre, tb_addBook_number;
 
 	@FXML
-	private void addBook(ActionEvent event) throws SQLException {
+	private void addBook(ActionEvent event) {
 		String name = tb_addBook_name.getText();
-		//Todo validate split for mepty endties
+		// Todo validate split for mepty endties
 		List<String> authors = Arrays.asList(tb_addBook_author.getText().split(" "));
 		String genre = tb_addBook_genre.getText();
 		String number = tb_addBook_number.getText();
 
-		Book book = new Book(name,authors,genre,number);
-		
+		Book book = new Book(name, authors, genre, number);
+
 		bookService.addBook(book);
 
 		tb_addBook_name.clear();
@@ -216,7 +215,7 @@ public class OperatorController implements Initializable {
 			tc_findClient_loyalty;
 
 	@FXML
-	private void findClient(ActionEvent event) throws SQLException {
+	private void findClient(ActionEvent event) {
 		String name = tb_findClient_name.getText();
 		String phone = tb_findClient_phone.getText();
 
