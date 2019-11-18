@@ -158,47 +158,14 @@ public class OperatorController implements Initializable {
 	@FXML
 	private void addBook(ActionEvent event) throws SQLException {
 		String name = tb_addBook_name.getText();
-		String author = tb_addBook_author.getText();
+		//Todo validate split for mepty endties
+		List<String> authors = Arrays.asList(tb_addBook_author.getText().split(" "));
 		String genre = tb_addBook_genre.getText();
 		String number = tb_addBook_number.getText();
 
-		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
-
-		String query = "INSERT INTO libr.genres VALUES (default, '" + genre + "') "
-				+ "ON DUPLICATE KEY UPDATE genre_name = '" + genre + "';";
-		st.executeUpdate(query);
-
-		query = "INSERT INTO libr.books_info VALUES (default, '" + name + "', '" + number + "', "
-				+ "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + genre + "'))"
-				+ " ON DUPLICATE KEY UPDATE book_info_inv_num = '" + number + "';";
-
-		st.executeUpdate(query);
-
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Success");
-		alert.setHeaderText("Records are successfully inserted! ");
-		// alert.setContentText("Please enter");
-		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-			public void accept(ButtonType rs) {
-				if (rs == ButtonType.OK) {
-					System.out.println("Pressed OK.");
-				}
-			}
-		});
-
-		query = "INSERT INTO libr.authors VALUES (default, '" + author + "') "
-				+ "ON DUPLICATE KEY UPDATE author_name = '" + author + "';";
-		st.executeUpdate(query);
-
-		query = "INSERT INTO libr.authors_books VALUES ((SELECT authors.AUTHOR_ID from authors WHERE AUTHOR_NAME = '"
-				+ author + "'), " + "(SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '" + name
-				+ "'));";
-		st.executeUpdate(query);
-
-		query = "INSERT INTO libr.books VALUES (default , 0, (SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '"
-				+ name + "'));";
-		st.executeUpdate(query);
+		Book book = new Book(name,authors,genre,number);
+		
+		bookService.addBook(book);
 
 		tb_addBook_name.clear();
 		tb_addBook_author.clear();
@@ -278,20 +245,25 @@ public class OperatorController implements Initializable {
 	@FXML
 	public javafx.scene.control.TableColumn tc_findBook_name, tc_findBook_author, tc_findBook_genre, tc_findBook_invNum,
 			tc_findBook_condition;
-	
-	private void displayBooks(List<Book> books)
-	{	
-		//TODO move in the validator class
-		if (books == null) {
+
+	private void displayBooks(List<Book> books) {
+		// TODO move in the validator class
+		if (books.isEmpty() || books == null) {
+			tb_findBook_name.clear();
+			tb_findBook_author.clear();
+			tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
+
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("No Records");
-			alert.setHeaderText("NO records found !!");
+			alert.setHeaderText("No records found !!");
 			// alert.setContentText("Please enter");
 			alert.showAndWait();
+			return;
 		}
-			
+
 		tw_findBook.getItems().clear();
-		
+
 		for (Iterator iterator = books.iterator(); iterator.hasNext();) {
 			tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
 			tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
@@ -300,60 +272,44 @@ public class OperatorController implements Initializable {
 			tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
 
 			tw_findBook.getItems().add(iterator.next());
-		}		
-	}
-	
-	@FXML
-	private void findBook(ActionEvent event) throws SQLException {
-				
-		if (cb_findBook.getValue() == "Book Name") {
-			
-			String name = tb_findBook_name.getText();
-			
-			//tb_findBook_name.clear();
-			tb_findBook_author.clear();
-			tb_findBook_genre.clear();
-			tb_findBook_condition.clear();			
-			
-			this.displayBooks(bookService.getBookbyName(name));
-		
 		}
+	}
 
-		if (cb_findBook.getValue() == "Book Author") {
+	@FXML
+	private void findBook(ActionEvent event) {
 
-			String author = tb_findBook_author.getText();
-			
-			tb_findBook_name.clear();
-			//tb_findBook_author.clear();
+		if (cb_findBook.getValue() == "Book Name") {
+			String name = tb_findBook_name.getText();
+			// tb_findBook_name.clear();
+			tb_findBook_author.clear();
 			tb_findBook_genre.clear();
 			tb_findBook_condition.clear();
-			
-			
-			this.displayBooks(bookService.getBooksByAuthor(author));
-		}
 
-		if (cb_findBook.getValue() == "Book Genre") {
-			
+			this.displayBooks(bookService.getBookbyName(name));
+		} else if (cb_findBook.getValue() == "Book Author") {
+			String author = tb_findBook_author.getText();
+			tb_findBook_name.clear();
+			// tb_findBook_author.clear();
+			tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
+
+			this.displayBooks(bookService.getBooksByAuthor(author));
+		} else if (cb_findBook.getValue() == "Book Genre") {
 			String genre = tb_findBook_genre.getText();
-			
 			tb_findBook_name.clear();
 			tb_findBook_author.clear();
-			//tb_findBook_genre.clear();
-			tb_findBook_condition.clear();		
-			
-			this.displayBooks(bookService.getBooksByGenre(genre));
-		}
+			// tb_findBook_genre.clear();
+			tb_findBook_condition.clear();
 
-		if (cb_findBook.getValue() == "Condition") {
-			
-			String str_condition =tb_findBook_condition.getText();
+			this.displayBooks(bookService.getBooksByGenre(genre));
+		} else if (cb_findBook.getValue() == "Condition") {
+			String str_condition = tb_findBook_condition.getText();
 			int condition = Integer.parseInt(str_condition);
-		
 			tb_findBook_name.clear();
 			tb_findBook_author.clear();
 			tb_findBook_genre.clear();
-			//tb_findBook_condition.clear();
-			
+			// tb_findBook_condition.clear();
+
 			this.displayBooks(bookService.getBookByCondition(condition));
 		}
 
@@ -497,10 +453,9 @@ public class OperatorController implements Initializable {
 	@FXML
 	private TableView tw_class;
 
-	private void displayClients(List<Client> res)
-	{	
+	private void displayClients(List<Client> res) {
 		tw_class.getItems().clear();
-		
+
 		for (int i = 0; i < res.size(); i++) {
 			tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
 			tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
@@ -510,7 +465,7 @@ public class OperatorController implements Initializable {
 			tw_class.getItems().add(res.get(i));
 		}
 	}
-	
+
 	@FXML
 	private void classification_byLoyalty(ActionEvent event) {
 		List<Client> res = userService.classifyClients("loyalty");

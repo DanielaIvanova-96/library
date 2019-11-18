@@ -10,8 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class BookDAOImpl implements BookDAO {
 
@@ -22,34 +27,51 @@ public class BookDAOImpl implements BookDAO {
 
 	public void addBook(Book b) {
 		Connection con = DBConnector.getConnection();
-		// Statement st = con.createStatement();
-		//
-		// String query = "INSERT INTO libr.genres VALUES (default, '" + genre + "') "
-		// + "ON DUPLICATE KEY UPDATE genre_name = '" + genre + "';";
-		// st.executeUpdate(query);
-		//
-		// query = "INSERT INTO libr.books_info VALUES (default, '" + name + "', '" +
-		// number + "', "
-		// + "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + genre + "'))"
-		// + " ON DUPLICATE KEY UPDATE book_info_inv_num = '" + number + "';";
-		//
-		// st.executeUpdate(query);
-		//
-		// query = "INSERT INTO libr.authors VALUES (default, '" + author + "') "
-		// + "ON DUPLICATE KEY UPDATE author_name = '" + author + "';";
-		// st.executeUpdate(query);
-		//
-		// query = "INSERT INTO libr.authors_books VALUES ((SELECT authors.AUTHOR_ID
-		// from authors WHERE AUTHOR_NAME = '"
-		// + author + "'), " + "(SELECT books_info.BOOK_INFO_ID FROM books_info WHERE
-		// BOOK_INFO_NAME = '" + name
-		// + "'));";
-		// st.executeUpdate(query);
-		//
-		// query = "INSERT INTO libr.books VALUES (default , 0, (SELECT
-		// books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '"
-		// + name + "'));";
-		// st.executeUpdate(query);
+		Statement st;
+		try {
+			st = con.createStatement();
+
+			String query = "INSERT INTO libr.genres VALUES (default, '" + b.getGenre() + "') "
+					+ "ON DUPLICATE KEY UPDATE genre_name = '" + b.getGenre() + "';";
+			st.executeUpdate(query);
+
+			query = "INSERT INTO libr.books_info VALUES (default, '" + b.getName() + "', '" + b.getName() + "', "
+					+ "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + b.getGenre() + "'))"
+					+ " ON DUPLICATE KEY UPDATE book_info_inv_num = '" + b.getInvNumber() + "';";
+
+			st.executeUpdate(query);
+
+			for (int i = 0; i < b.getAuthors().size(); i++) {
+				query = "INSERT INTO libr.authors VALUES (default, '" + b.getAuthors().get(i) + "') "
+						+ "ON DUPLICATE KEY UPDATE author_name = '" + b.getAuthors().get(i) + "';";
+				st.executeUpdate(query);
+
+				query = "INSERT INTO libr.authors_books VALUES ((SELECT authors.AUTHOR_ID from authors WHERE AUTHOR_NAME = '"
+						+ b.getAuthors().get(i) + "'), "
+						+ "(SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '" + b.getName()
+						+ "'));";
+				st.executeUpdate(query);
+			}
+
+			query = "INSERT INTO libr.books VALUES (default , 0, (SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '"
+					+ b.getName() + "'));";
+			st.executeUpdate(query);
+			
+			
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Success");
+			alert.setHeaderText("Book is successfully inserted! ");
+			alert.showAndWait();
+			
+		} catch (SQLException e) {
+			
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Book could not be inserted! ");
+			alert.showAndWait();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -165,8 +187,8 @@ public class BookDAOImpl implements BookDAO {
 					+ " JOIN  authors_books ON books_info.BOOK_INFO_ID = authors_books.BOOK_INFO_ID"
 					+ " JOIN authors ON authors.AUTHOR_ID = authors_books.AUTHOR_ID"
 					+ " JOIN genres ON genres.GENRE_ID = books_info.GENRE_ID"
-					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE AUTHOR_NAME LIKE '%" + author
-					+ "%' ;";
+					+ " JOIN books ON books.BOOK_INFO_ID = books_info.BOOK_INFO_ID" + " WHERE AUTHOR_NAME LIKE '%"
+					+ author + "%' ;";
 
 			ResultSet rs = st.executeQuery(query);
 

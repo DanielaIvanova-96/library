@@ -13,6 +13,10 @@ public class Book {
 
 	public Book(){}
 
+	public Book(String name,List<String> authors,String genre, String invNum ){
+		this(name,authors,genre,invNum,0);
+	}
+	
 	public Book(String name,List<String> authors,String genre, String invNum, int condition ){
 		this.name = name;
 		this.invNumber = invNum;
