@@ -8,16 +8,14 @@ public class Book {
 	String invNumber;
 	String genre;
 	int condition;
-	List <String> authors;
-	//String authors;
+	List<String> authors;
+	// String authors;
 
-	public Book(){}
-
-	public Book(String name,List<String> authors,String genre, String invNum ){
-		this(name,authors,genre,invNum,0);
+	public Book(String name, List<String> authors, String genre, String invNum) {
+		this(name, authors, genre, invNum, 0);
 	}
-	
-	public Book(String name,List<String> authors,String genre, String invNum, int condition ){
+
+	public Book(String name, List<String> authors, String genre, String invNum, int condition) {
 		this.name = name;
 		this.invNumber = invNum;
 		this.genre = genre;
@@ -25,21 +23,55 @@ public class Book {
 		this.authors = authors;
 	}
 
-	public int getId(){ return this.id; }
-	public void setId(int id){ this.id = id; }
+	public Book(String name) {
+		this.name = name;
+	}
 
-	public String getName() { return this.name; }
-	public void setName(String name){ this.name = name; }
+	public int getId() {
+		return this.id;
+	}
 
-	public String getInvNumber() { return this.invNumber; }
-	public void setInvNumber(String invNumber){ this.invNumber = invNumber; }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	public String getGenre() { return this.genre; }
-	public void setGenre(String genre){ this.genre = genre; }
+	public String getName() {
+		return this.name;
+	}
 
-	public int getCondition() { return this.condition; }
-	public void setCondition(int condition) {this.condition = condition;}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	public List<String> getAuthors() {return this.authors; }
-	public void setAuthors(List<String> authors) {this.authors = authors; }
+	public String getInvNumber() {
+		return this.invNumber;
+	}
+
+	public void setInvNumber(String invNumber) {
+		this.invNumber = invNumber;
+	}
+
+	public String getGenre() {
+		return this.genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public int getCondition() {
+		return this.condition;
+	}
+
+	public void setCondition(int condition) {
+		this.condition = condition;
+	}
+
+	public List<String> getAuthors() {
+		return this.authors;
+	}
+
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
+	}
 }

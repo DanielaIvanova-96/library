@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import tuv.lib.models.*;
 import tuv.lib.models.interfaces.BookService;
+import tuv.lib.models.interfaces.RentService;
 import tuv.lib.models.interfaces.UserService;
 
 import javax.swing.table.TableColumn;
@@ -25,6 +26,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class OperatorController implements Initializable {
 	private UserService userService;
 	private BookService bookService;
+	private RentService rentService;
 	private Map<Button, Pane> panes;
 	private Operator operator;
 
@@ -49,9 +51,11 @@ public class OperatorController implements Initializable {
 	// @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initializePanes();
-		userService = new UserServiceImpl();
-		bookService = new BookServiceImpl();
+		this.userService = new UserServiceImpl();
+		this.bookService = new BookServiceImpl();
+		this.rentService = new RentServiceImpl();
 		operator = new Operator();
+
 		for (Map.Entry<Button, Pane> entry : panes.entrySet())
 			entry.getValue().setVisible(false);
 
@@ -157,7 +161,7 @@ public class OperatorController implements Initializable {
 	@FXML
 	private void addBook(ActionEvent event) {
 		String name = tb_addBook_name.getText();
-		// Todo validate split for mepty endties
+		// TODO validate split for empty entities
 		List<String> authors = Arrays.asList(tb_addBook_author.getText().split(" "));
 		String genre = tb_addBook_genre.getText();
 		String number = tb_addBook_number.getText();
@@ -181,6 +185,8 @@ public class OperatorController implements Initializable {
 	private void removeBook(ActionEvent event) throws SQLException {
 		String name = tb_removeBook_name.getText();
 		String number = tb_removeBook_number.getText();
+
+		// TODO check if the book is in open rent
 
 		Connection con = DBConnector.getConnection();
 		Statement st = con.createStatement();
@@ -353,68 +359,25 @@ public class OperatorController implements Initializable {
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
-		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
-		ResultSet rs;
+		Book bk = new Book(book_name);
+		Client cl = new Client(client_name);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar cal = Calendar.getInstance();
-		String date = dateFormat.format(cal.getTime());
+		Rent r = new Rent(cl, bk);
+		int status = rentService.makeRent(r);
 
-		String id_book = "SELECT books.BOOK_ID" + " FROM (" + "SELECT books.BOOK_ID" + " from books"
-				+ " join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
-				+ " WHERE books_info.BOOK_INFO_NAME = '" + book_name + "'" + ") books"
-				+ " left JOIN rents on rents.BOOK_ID = books.BOOK_ID"
-				+ " where rents.RENT_STATUS is null or rents.RENT_STATUS = 1 limit 1;";
-
-		rs = st.executeQuery(id_book);
-
-		if (rs.next()) {
+		if (status == 0) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Information");
-			alert.setHeaderText("Found records!! ");
-			// alert.setContentText("Please enter");
-			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-				public void accept(ButtonType rs) {
-					if (rs == ButtonType.OK) {
-						System.out.println("Pressed OK.");
-					}
-				}
-			});
-
-			int res_id_book = rs.getInt("BOOK_ID");
-
-			String query = "INSERT INTO rents VALUES " + "(default, '" + date + "', (SELECT DATE_ADD('" + date
-					+ "', INTERVAL 20 DAY)), " + res_id_book
-					+ ", (SELECT users.USER_ID from users where users.USER_NAME = '" + client_name + "'), 0);";
-
-			st.executeUpdate(query);
-
-			Alert alert_2 = new Alert(Alert.AlertType.INFORMATION);
-			alert_2.setTitle("Information");
-			alert_2.setHeaderText("The rent is successfully made !!");
-			alert_2.showAndWait().ifPresent(new Consumer<ButtonType>() {
-				public void accept(ButtonType rs) {
-					if (rs == ButtonType.OK) {
-						System.out.println("Pressed OK.");
-					}
-				}
-			});
-
+			alert.setTitle("SUCCESS");
+			alert.setHeaderText("The rent is successfully made !!");
+			alert.showAndWait();
 		} else {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Information");
-			alert.setHeaderText("Records not found!! ");
-			// alert.setContentText("Please enter");
-			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-				public void accept(ButtonType rs) {
-					if (rs == ButtonType.OK) {
-						System.out.println("Pressed OK.");
-					}
-				}
-			});
-
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("FAIL");
+			alert.setHeaderText("The cannot be made !!");
+			alert.showAndWait();
 		}
+		tb_makeRent_bname.clear();
+		tb_makeRent_cname.clear();
 	}
 
 	@FXML
@@ -422,29 +385,25 @@ public class OperatorController implements Initializable {
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
-		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
+		Book bk = new Book(book_name);
+		Client cl = new Client(client_name);
 
-		String query = "UPDATE libr.rents " + " JOIN books on books.BOOK_ID = rents.BOOK_ID"
-				+ " JOIN books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
-				+ " JOIN users on users.USER_ID = rents.USER_ID"
-				+ " SET rents.RENT_STATUS = 1, books.BOOK_CONDITION = books.BOOK_CONDITION+1"
-				+ " WHERE users.USER_NAME = '" + client_name + "' AND books_info.BOOK_INFO_NAME = '" + book_name + "';";
+		Rent r = new Rent(cl, bk);
+		int status = rentService.closeRent(r);
 
-		st.executeUpdate(query);
-
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Information");
-		alert.setHeaderText("The rent is successfully closed!!");
-		// alert.setContentText("Please enter");
-		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-			public void accept(ButtonType rs) {
-				if (rs == ButtonType.OK) {
-
-					System.out.println("Pressed OK.");
-				}
-			}
-		});
+		if (status == 0) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("SUCCESS");
+			alert.setHeaderText("The rent is successfully cloesd !!");
+			alert.showAndWait();
+		} else {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("FAIL");
+			alert.setHeaderText("The cannot be cloesd !!");
+			alert.showAndWait();
+		}
+		tb_makeRent_bname.clear();
+		tb_makeRent_cname.clear();
 	}
 
 	@FXML
