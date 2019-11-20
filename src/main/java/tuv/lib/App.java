@@ -16,6 +16,7 @@ import tuv.lib.controllers.LogInController;
 import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
 import tuv.lib.models.HibernateUtil;
+import tuv.lib.models.Log4;
 import tuv.lib.models.User;
 import tuv.lib.models.User.Possition;
 import tuv.lib.models.dao.UserDAOImpl;
@@ -53,6 +54,10 @@ public class App extends Application {
 	}
 
 	public static void main(String[] args) {
+		
+		Log4 l = new Log4();
+		l.logTest();
+		
 		// UserDAOImpl daoImpl = new UserDAOImpl();
 
 //		Session s = HibernateUtil.getSessionFactory().openSession();
