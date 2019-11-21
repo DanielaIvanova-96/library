@@ -35,7 +35,7 @@ public class BookDAOImpl implements BookDAO {
 					+ "ON DUPLICATE KEY UPDATE genre_name = '" + b.getGenre() + "';";
 			st.executeUpdate(query);
 
-			query = "INSERT INTO libr.books_info VALUES (default, '" + b.getName() + "', '" + b.getName() + "', "
+			query = "INSERT INTO libr.books_info VALUES (default, '" + b.getName() + "', '" + b.getInvNumber() + "', "
 					+ "(SELECT genre_id FROM libr.genres WHERE genre_name = '" + b.getGenre() + "'))"
 					+ " ON DUPLICATE KEY UPDATE book_info_inv_num = '" + b.getInvNumber() + "';";
 

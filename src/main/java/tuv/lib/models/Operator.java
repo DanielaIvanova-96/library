@@ -5,7 +5,13 @@ import javax.persistence.Entity;
 import tuv.lib.models.User.Possition;
 
 //@Entity
-public class Operator {
+public class Operator extends User {
+	
+	public Operator(User u)
+	{
+		this.name = u.getName();
+		this.possition = Possition.OPERATOR;
+	}
 	
 	public Client createClient(String name, String pass, String recordDate,String phoneNum)
 	{

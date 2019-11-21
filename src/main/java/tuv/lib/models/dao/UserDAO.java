@@ -7,6 +7,7 @@ import tuv.lib.models.Client;
 import tuv.lib.models.User;
 
 public interface UserDAO {
+	public User getUserByName(String name);
 	public User getUserById(int id);
 	public void addUser(User u);
 	public void addClient(Client cl);

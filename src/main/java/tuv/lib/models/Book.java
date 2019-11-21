@@ -1,5 +1,7 @@
 package tuv.lib.models;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Book {
@@ -10,17 +12,25 @@ public class Book {
 	int condition;
 	List<String> authors;
 	// String authors;
-
+	
 	public Book(String name, List<String> authors, String genre, String invNum) {
 		this(name, authors, genre, invNum, 0);
 	}
 
 	public Book(String name, List<String> authors, String genre, String invNum, int condition) {
+		this.authors = new ArrayList<String>(){
+		    private static final long serialVersionUID = 1L;
+		    @Override 
+		    public String toString()
+		    {		    	
+		    	return String.join(", " , this);
+		    }
+		};
 		this.name = name;
 		this.invNumber = invNum;
 		this.genre = genre;
 		this.condition = condition;
-		this.authors = authors;
+		this.authors.addAll(authors); 
 	}
 
 	public Book(String name) {

@@ -18,19 +18,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
 import tuv.lib.models.User;
+import tuv.lib.models.User.Possition;
 
 public class UserDAOImpl implements UserDAO {
 
-	private SessionFactory sessionFactory;
+	//private SessionFactory sessionFactory;
 
 	// public void setSessionFactory(SessionFactory sf){
 	// this.sessionFactory = sf;
 	// }
 
-	public User getUserById(int id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		User u = (User) session.load(User.class, new Integer(id));
-		return u;
+	
+	
+	public User getUserById(int id) {	
+		return null;
 	}
 
 	public void addUser(User u) {
@@ -72,8 +73,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public void updateUser(User u) {
-		Session session = this.sessionFactory.getCurrentSession();
-		session.update(u);
+		
 	}
 
 	public void removeUser(int id) {
@@ -166,6 +166,25 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return clinetsRes;
+	}
+
+	@Override
+	public User getUserByName(String name) {
+		String query = "SELECT users.USER_PASSWORD , users.USER_POSS FROM libr.users where users.USER_NAME = '"+ name + "' ;";
+
+		Connection con = DBConnector.getConnection();
+		Statement st;
+		try {
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);		
+			if (rs.next()) {				
+				return new User(name,rs.getString("USER_PASSWORD"), User.convertIntToPoss(rs.getInt("USER_POSS")));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

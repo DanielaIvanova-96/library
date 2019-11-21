@@ -45,9 +45,12 @@ public class AdminController implements Initializable {
 	@FXML
 	private TextField tb_removeUsername;
 
+	public AdminController(User u) {
+		this.admin = new Admin(u);
+	}
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userService = new UserServiceImpl();
-		admin = new Admin();
 	}
 
 	@FXML
@@ -65,25 +68,24 @@ public class AdminController implements Initializable {
 	private void createUser(ActionEvent event) {
 		String name = tb_addUsername.getText().trim();
 		String pass = tb_addPassword.getText().trim();
-		
-		if (Validator.isNullOrEmpty(name) || Validator.isNullOrEmpty(pass))
-		{
+
+		if (Validator.isNullOrEmpty(name) || Validator.isNullOrEmpty(pass)) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Empty field");
 			alert.setHeaderText("Pase insert proper information in the fields");
-					alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
+			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
 				public void accept(ButtonType rs) {
 					if (rs == ButtonType.OK) {
 						System.out.println("Pressed OK.");
 					}
 				}
 			});
-					
+
 			tb_addUsername.clear();
 			tb_addPassword.clear();
-					
+
 		}
-			
+
 		User u = admin.createOperator(name, pass);
 		this.userService.addUser(u);
 

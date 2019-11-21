@@ -54,10 +54,7 @@ public class App extends Application {
 	}
 
 	public static void main(String[] args) {
-		
-		Log4 l = new Log4();
-		l.logTest();
-		
+			
 		// UserDAOImpl daoImpl = new UserDAOImpl();
 
 //		Session s = HibernateUtil.getSessionFactory().openSession();

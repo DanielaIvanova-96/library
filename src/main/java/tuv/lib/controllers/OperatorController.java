@@ -30,6 +30,11 @@ public class OperatorController implements Initializable {
 	private Map<Button, Pane> panes;
 	private Operator operator;
 
+	public OperatorController(User u)
+	{
+		this.operator = new Operator(u);
+	}
+	
 	@FXML
 	private Button btn_addBook, btn_removeBook, btn_addClient, btn_makeRent, btn_findBook, btn_findClient,
 			btn_Classification;
@@ -54,7 +59,6 @@ public class OperatorController implements Initializable {
 		this.userService = new UserServiceImpl();
 		this.bookService = new BookServiceImpl();
 		this.rentService = new RentServiceImpl();
-		operator = new Operator();
 
 		for (Map.Entry<Button, Pane> entry : panes.entrySet())
 			entry.getValue().setVisible(false);
@@ -268,14 +272,14 @@ public class OperatorController implements Initializable {
 		}
 
 		tw_findBook.getItems().clear();
-
+		
+		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
+		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
+		tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
+		tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
+		tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
+		
 		for (Iterator iterator = books.iterator(); iterator.hasNext();) {
-			tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
-			tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
-			tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
-			tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
-			tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
-
 			tw_findBook.getItems().add(iterator.next());
 		}
 	}

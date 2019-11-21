@@ -79,5 +79,20 @@ public class User {
 		this.possition = pos;
 	}
 	
+	public static Possition convertIntToPoss(int possInt) throws Exception 
+	{
+		switch (possInt) {
+		case 0:
+			return Possition.ADMIN;
+		case 1:
+			return Possition.OPERATOR;
+		case 2:
+			return Possition.CLIENT;
+		default:
+			throw new Exception("Integer value not supported");
+		}
+	}
+	
+	
 
 }
