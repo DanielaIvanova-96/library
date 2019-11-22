@@ -16,7 +16,7 @@ public class AdminTest {
 	private Admin admin;
 	@Before
 	public void setUp() throws Exception {
-		admin = new Admin();
+		admin = new Admin(new User());
 	}
 
 	@After

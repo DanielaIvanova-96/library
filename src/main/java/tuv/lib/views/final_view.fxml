@@ -67,7 +67,7 @@
                   </LinearGradient>
                </textFill>
             </Button>
-            <Button id="btn_makeRent" fx:id="btn_makeRent" layoutY="204.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="MAKE RENT">
+            <Button id="btn_makeRent" fx:id="btn_makeRent" layoutY="204.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="68.0" prefWidth="169.0" style="-fx-background-color: #34495e;" text="RENTS">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -182,15 +182,6 @@
                <children>
                   <TextField id="tb_removeBook_name" fx:id="tb_removeBook_name" layoutX="230.0" layoutY="67.0" prefHeight="37.0" prefWidth="150.0" />
                   <TextField id="tb_removeBook_number" fx:id="tb_removeBook_number" layoutX="230.0" layoutY="189.0" prefHeight="37.0" prefWidth="150.0" />
-                  <Button id="btn_removebook_archeve" fx:id="btn_removebook_archeve" layoutX="107.0" layoutY="361.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0" text="Button">
-                     <effect>
-                        <ImageInput>
-                           <source>
-                              <Image url="@/archeve_book_52px.png" />
-                           </source>
-                        </ImageInput>
-                     </effect>
-                  </Button>
                   <Button id="btn_removebook_remove" fx:id="btn_removebook_remove" layoutX="414.0" layoutY="354.0" mnemonicParsing="false" onAction="#removeBook" prefHeight="55.0" prefWidth="96.0" text="Button">
                      <effect>
                         <ImageInput>
@@ -205,7 +196,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="79.0" layoutY="199.0" text="Inv. number:">
+                  <Label layoutX="79.0" layoutY="199.0" text="Book condition :">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -318,7 +309,6 @@
             <Pane fx:id="pln_findClient" layoutY="-2.0" prefHeight="451.0" prefWidth="583.0" visible="false">
                <children>
                   <TextField id="tb_findClient_name" fx:id="tb_findClient_name" layoutX="143.0" layoutY="47.0" prefHeight="37.0" prefWidth="158.0" />
-                  <TextField id="tb_findClient_phone" fx:id="tb_findClient_phone" layoutX="143.0" layoutY="114.0" prefHeight="37.0" prefWidth="158.0" />
                   <TableView id="tw_findClient" fx:id="tw_findClient" layoutX="13.0" layoutY="183.0" prefHeight="211.0" prefWidth="558.0">
                     <columns>
                       <TableColumn id="tc_findClient_name" fx:id="tc_findClient_name" prefWidth="183.0" text="Name" />
@@ -328,11 +318,6 @@
                     </columns>
                   </TableView>
                   <Label layoutX="22.0" layoutY="55.0" text="Name:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="21.0" layoutY="122.0" text="Phone Number:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

@@ -30,11 +30,10 @@ public class OperatorController implements Initializable {
 	private Map<Button, Pane> panes;
 	private Operator operator;
 
-	public OperatorController(User u)
-	{
+	public OperatorController(User u) {
 		this.operator = new Operator(u);
 	}
-	
+
 	@FXML
 	private Button btn_addBook, btn_removeBook, btn_addClient, btn_makeRent, btn_findBook, btn_findClient,
 			btn_Classification;
@@ -188,31 +187,13 @@ public class OperatorController implements Initializable {
 	@FXML
 	private void removeBook(ActionEvent event) throws SQLException {
 		String name = tb_removeBook_name.getText();
-		String number = tb_removeBook_number.getText();
-
-		// TODO check if the book is in open rent
-
-		Connection con = DBConnector.getConnection();
-		Statement st = con.createStatement();
-
-		String query = "DELETE FROM books WHERE EXISTS ("
-				+ "SELECT * FROM books_info WHERE books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
-				+ " AND books_info.BOOK_INFO_NAME = '" + name + "' AND books_info.BOOK_INFO_INV_NUM = '" + number
-				+ "' )" + " AND books.BOOK_CONDITION > 100";
-
-		st.executeUpdate(query);
-
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Success");
-		alert.setHeaderText("Records are successfully deleted! ");
-		// alert.setContentText("Please enter");
-		alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-			public void accept(ButtonType rs) {
-				if (rs == ButtonType.OK) {
-					System.out.println("Pressed OK.");
-				}
-			}
-		});
+		int cond = Integer.parseInt(tb_removeBook_number.getText());
+		Book b = new Book(name,cond);
+		
+		this.bookService.removeBook(b);
+		
+		tb_removeBook_name.clear();
+		tb_removeBook_number.clear();
 	}
 
 	// find client block
@@ -232,12 +213,11 @@ public class OperatorController implements Initializable {
 		List<Client> res = userService.findClients(name);
 
 		// ZM not sure how this works
+		tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
+		tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
+		tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
+		tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
 		for (int i = 0; i < res.size(); i++) {
-			tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
-			tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
-			tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
-			tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
-
 			tw_findClient.getItems().add(res.get(i));
 		}
 
@@ -272,13 +252,13 @@ public class OperatorController implements Initializable {
 		}
 
 		tw_findBook.getItems().clear();
-		
+
 		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
 		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
 		tc_findBook_genre.setCellValueFactory(new PropertyValueFactory<Object, Object>("Genre"));
 		tc_findBook_invNum.setCellValueFactory(new PropertyValueFactory<Object, Object>("invNumber"));
 		tc_findBook_condition.setCellValueFactory(new PropertyValueFactory<Object, Object>("Condition"));
-		
+
 		for (Iterator iterator = books.iterator(); iterator.hasNext();) {
 			tw_findBook.getItems().add(iterator.next());
 		}

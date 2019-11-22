@@ -13,5 +13,5 @@ public interface BookDAO {
 	public List<Book> getBookByCondition(int condition);
 	public void addBook(Book b);
 	public void updateBook(Book b);
-	public void removeBook(int id);
+	public void removeBook(Book b);
 }

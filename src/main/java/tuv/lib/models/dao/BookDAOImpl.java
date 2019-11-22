@@ -56,15 +56,14 @@ public class BookDAOImpl implements BookDAO {
 			query = "INSERT INTO libr.books VALUES (default , 0, (SELECT books_info.BOOK_INFO_ID FROM books_info WHERE BOOK_INFO_NAME = '"
 					+ b.getName() + "'));";
 			st.executeUpdate(query);
-			
-			
+
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Success");
 			alert.setHeaderText("Book is successfully inserted! ");
 			alert.showAndWait();
-			
+
 		} catch (SQLException e) {
-			
+
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Book could not be inserted! ");
@@ -267,6 +266,42 @@ public class BookDAOImpl implements BookDAO {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void removeBook(Book b) {
+		try {
+			Connection con = DBConnector.getConnection();
+			Statement st = con.createStatement();
+
+			String q1 = " select books.BOOK_ID from books where (select books_info.BOOK_INFO_ID from books_info where books_info.BOOK_INFO_NAME ='"
+					+ b.getName() + "') and books.BOOK_CONDITION =" + b.getCondition() + "  limit 1; ";
+			ResultSet rs = st.executeQuery(q1);
+
+			if (rs.next()) {
+				int res_id = rs.getInt("BOOK_ID");
+				b.setId(res_id);
+				String q2 = "select * from rents where rents.BOOK_ID = " + b.getId() + "  And rents.RENT_STATUS = 0;";
+				ResultSet rs2 = st.executeQuery(q2);
+				if (rs2.next()) {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Fail");
+					alert.setHeaderText("Record is currently in use!");
+					alert.showAndWait();
+					return;
+				}
+				String q3 = "delete from books  where books.BOOK_ID =" + b.getId() + ";";
+				st.executeUpdate(q3);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Success");
+		alert.setHeaderText("Records are successfully deleted! ");
+		alert.showAndWait();
 	}
 
 }

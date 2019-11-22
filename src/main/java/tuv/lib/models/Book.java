@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javassist.expr.NewArray;
+
 public class Book {
 	int id;
 	String name;
@@ -12,25 +14,31 @@ public class Book {
 	int condition;
 	List<String> authors;
 	// String authors;
-	
+
+	public Book(String name, int cond) {
+		this(name, null, "", "", cond);
+	}
+
 	public Book(String name, List<String> authors, String genre, String invNum) {
 		this(name, authors, genre, invNum, 0);
 	}
 
 	public Book(String name, List<String> authors, String genre, String invNum, int condition) {
-		this.authors = new ArrayList<String>(){
-		    private static final long serialVersionUID = 1L;
-		    @Override 
-		    public String toString()
-		    {		    	
-		    	return String.join(", " , this);
-		    }
+		this.authors = new ArrayList<String>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String toString() {
+				return String.join(", ", this);
+			}
 		};
 		this.name = name;
 		this.invNumber = invNum;
 		this.genre = genre;
 		this.condition = condition;
-		this.authors.addAll(authors); 
+		if (authors != null) {
+			this.authors.addAll(authors);
+		}
 	}
 
 	public Book(String name) {

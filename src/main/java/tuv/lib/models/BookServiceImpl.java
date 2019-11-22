@@ -28,8 +28,8 @@ public class BookServiceImpl implements BookService {
 		bookDAO.updateBook(b);
 	}
 
-	public void removeBook(int id) {
-		bookDAO.removeBook(id);
+	public void removeBook(Book b) {
+		bookDAO.removeBook(b);
 	}
 
 	public List<Book> getBookbyName(String name) {
