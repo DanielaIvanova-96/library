@@ -1,22 +1,84 @@
 package tuv.lib.models;
 
 /**
- * Validates fields 
+ * Validates fields
+ * 
  * @author Zheni
  *
  */
 public class Validator {
 
 	/**
-	 * Check if string is null or empty 
-	 * @param str string checked
+	 * Check if string is null or empty
+	 * 
+	 * @param str
+	 *            string for checking
+	 * @return boolean result
+	 */
+	public static boolean isNullOrEmpty(String str) {
+		if (str == null || str.isEmpty())
+			return true;
+		return false;
+	}
+
+	/**
+	 * Check if string has chars only
+	 * 
+	 * @param str
+	 *            string to be checked
+	 * @return boolean result
+	 */
+	public static boolean hasCharsOnly(String str) {
+		if (Validator.isNullOrEmpty(str)) {
+			return false;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if ((Character.isLetter(str.charAt(i)) == false)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check if string checks if string is correct phone number : has 10 symbols, all
+	 * of the symbols are digits
+	 * 
+	 * @param str
+	 *            phone number
+	 * @return boolean result
+	 */
+	public static boolean checkPhone(String str) {
+		if (Validator.isNullOrEmpty(str)) {
+			return false;
+		}
+		if (str.length() != 10) {
+			return false;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if ((Character.isDigit(str.charAt(i)) == false)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Check if string has digits only
+	 * 
+	 * @param str string to be checked
 	 * @return
 	 */
-	public static boolean isNullOrEmpty(String str)
-	{
-		   if(str == null || str.isEmpty())
-	            return true;
-	        return false;
+	public static boolean hasDigitsOnly(String str) {
+		if (Validator.isNullOrEmpty(str)) {
+			return false;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if ((Character.isDigit(str.charAt(i)) == false)) {
+				return false;
+			}
+		}
+		return true;
 	}
-	
+
 }

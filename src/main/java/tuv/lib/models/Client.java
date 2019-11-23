@@ -50,6 +50,11 @@ public class Client extends User {
 		return loyalty;
 	}
 
+	public void setLoyalty(int loynalty) {
+		this.loyalty = loynalty;
+	}
+
+	
 	public String getPhoneNum() {
 		return phoneNum;
 	}

@@ -18,8 +18,8 @@ final public class DBConnector {
 	private static Connection con;
 
 	private static final String url = "jdbc:mysql://localhost:3306/libr?useSSL=false";
-	private static final String user = "root";
-	private static final String password = "";
+	private static final String user = "zheni";
+	private static final String password = "nikola";
 
 	/**
 	 * Sets up the url , username and password for the database connection  
@@ -27,7 +27,7 @@ final public class DBConnector {
 	public static void setUpConncetion() {
 
 		String query = "SELECT VERSION()";
-		
+
 		try {
 			con = DriverManager.getConnection(url, user, password);
 

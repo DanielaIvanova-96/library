@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import tuv.lib.models.DBConnector;
 import tuv.lib.models.Rent;
@@ -48,8 +50,8 @@ public class RentDAOImpl implements RentDAO {
 		Statement st;
 		try {
 			st = con.createStatement();
+			// r.setReturnDate(LocalDate.now());
 			// TODO update client loyalty
-			// TODO check if rent exists
 			String query = "UPDATE libr.rents " + " JOIN books on books.BOOK_ID = rents.BOOK_ID"
 					+ " JOIN books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
 					+ " JOIN users on users.USER_ID = rents.USER_ID"
@@ -58,6 +60,14 @@ public class RentDAOImpl implements RentDAO {
 					+ r.getBook().getName() + "';";
 
 			st.executeUpdate(query);
+			LocalDate tempDateTime = LocalDate.from(r.getReturnDate());
+			long diff = tempDateTime.until(LocalDate.now(), ChronoUnit.DAYS);
+			int newLoyalty = (int) (r.getClient().getLoyalty() + diff);
+			r.getClient().setLoyalty(newLoyalty);
+			
+			String updateLoyalty = "UPDATE libr.users SET USER_LOYALTY = "+r.getClient().getLoyalty()+" WHERE USER_NAME = '"+ r.getClient().getName() +"' ;"; 			
+			st.executeUpdate(updateLoyalty);
+			
 			return 0;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

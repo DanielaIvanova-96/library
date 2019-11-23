@@ -22,15 +22,13 @@ import tuv.lib.models.User.Possition;
 
 public class UserDAOImpl implements UserDAO {
 
-	//private SessionFactory sessionFactory;
+	// private SessionFactory sessionFactory;
 
 	// public void setSessionFactory(SessionFactory sf){
 	// this.sessionFactory = sf;
 	// }
 
-	
-	
-	public User getUserById(int id) {	
+	public User getUserById(int id) {
 		return null;
 	}
 
@@ -73,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public void updateUser(User u) {
-		
+
 	}
 
 	public void removeUser(int id) {
@@ -170,15 +168,16 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserByName(String name) {
-		String query = "SELECT users.USER_PASSWORD , users.USER_POSS FROM libr.users where users.USER_NAME = '"+ name + "' ;";
+		String query = "SELECT users.USER_PASSWORD , users.USER_POSS FROM libr.users where users.USER_NAME = '" + name
+				+ "' ;";
 
 		Connection con = DBConnector.getConnection();
 		Statement st;
 		try {
 			st = con.createStatement();
-			ResultSet rs = st.executeQuery(query);		
-			if (rs.next()) {				
-				return new User(name,rs.getString("USER_PASSWORD"), User.convertIntToPoss(rs.getInt("USER_POSS")));
+			ResultSet rs = st.executeQuery(query);
+			if (rs.next()) {
+				return new User(name, rs.getString("USER_PASSWORD"), User.convertIntToPoss(rs.getInt("USER_POSS")));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -187,4 +186,33 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
+	@Override
+	public Client getClientByName(String name) {
+
+		Connection con = DBConnector.getConnection();
+		Statement st;
+		try {
+			st = con.createStatement();
+
+			String query = "SELECT USER_NAME, USER_PH_NUM, USER_REC_DATE, USER_LOYALTY\r" + "FROM libr.users\r\n"
+					+ "WHERE USER_NAME = '" + name + "'; ";
+
+			ResultSet rs = st.executeQuery(query);
+
+			if (rs.next()) {
+				String res_name = rs.getString("USER_NAME");
+				String res_phone = rs.getString("USER_PH_NUM");
+				String res_date = rs.getString("USER_REC_DATE");
+				int res_loyalty;
+
+				res_loyalty = rs.getInt("USER_LOYALTY");
+				return new Client(res_name, res_phone, res_date, res_loyalty);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

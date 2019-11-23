@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
 		return this.userDAO.getUserByName(name);
 	}
 
+	@Override
+	public Client getClientByName(String name) {
+		return userDAO.getClientByName(name);
+	}
+
 }

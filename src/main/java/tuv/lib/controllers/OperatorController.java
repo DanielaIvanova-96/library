@@ -41,6 +41,12 @@ public class OperatorController implements Initializable {
 	private Pane pln_addBook, pln_removeBook, pln_addClient, pln_makeRent, pln_findBook, pln_findClient,
 			pln_Classification;
 
+	/**
+	 * Changes the front pane according to the chosen button
+	 * 
+	 * @param event
+	 *            chosen button
+	 */
 	@FXML
 	private void buttonAction(ActionEvent event) {
 		for (Map.Entry<Button, Pane> entry : panes.entrySet()) {
@@ -157,17 +163,45 @@ public class OperatorController implements Initializable {
 		panes.put(btn_Classification, pln_Classification);
 	}
 
+	private void showWrongInputAllert() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Wrong input");
+		alert.setHeaderText("Please input correct values!");
+		alert.showAndWait();
+	}
+
 	// add book block
 	@FXML
 	private TextField tb_addBook_name, tb_addBook_author, tb_addBook_genre, tb_addBook_number;
 
+	/**
+	 * Added book to the library database
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void addBook(ActionEvent event) {
 		String name = tb_addBook_name.getText();
-		// TODO validate split for empty entities
-		List<String> authors = Arrays.asList(tb_addBook_author.getText().split(" "));
+		List<String> authors = Arrays.asList(tb_addBook_author.getText().split(", "));
 		String genre = tb_addBook_genre.getText();
 		String number = tb_addBook_number.getText();
+
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+		status &= Validator.hasCharsOnly(genre);
+		status &= Validator.hasDigitsOnly(number);
+		for (int i = 0; i < authors.size(); i++) {
+			status &= Validator.hasCharsOnly(authors.get(i));
+		}
+
+		if (!status) {
+			this.showWrongInputAllert();
+			tb_addBook_name.clear();
+			tb_addBook_author.clear();
+			tb_addBook_genre.clear();
+			tb_addBook_number.clear();
+			return;
+		}
 
 		Book book = new Book(name, authors, genre, number);
 
@@ -185,13 +219,25 @@ public class OperatorController implements Initializable {
 	private TextField tb_removeBook_name, tb_removeBook_number;
 
 	@FXML
-	private void removeBook(ActionEvent event) throws SQLException {
+	private void removeBook(ActionEvent event) {
 		String name = tb_removeBook_name.getText();
 		int cond = Integer.parseInt(tb_removeBook_number.getText());
-		Book b = new Book(name,cond);
-		
+
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+		status &= Validator.hasDigitsOnly(tb_removeBook_number.getText());
+
+		if (!status) {
+			this.showWrongInputAllert();
+			tb_removeBook_name.clear();
+			tb_removeBook_number.clear();
+			return;
+		}
+
+		Book b = new Book(name, cond);
+
 		this.bookService.removeBook(b);
-		
+
 		tb_removeBook_name.clear();
 		tb_removeBook_number.clear();
 	}
@@ -210,6 +256,18 @@ public class OperatorController implements Initializable {
 		String name = tb_findClient_name.getText();
 		String phone = tb_findClient_phone.getText();
 
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+		status &= Validator.checkPhone(phone);
+
+		if (!status) {
+			this.showWrongInputAllert();
+
+			tb_findClient_name.clear();
+			tb_findClient_phone.clear();
+			return;
+		}
+
 		List<Client> res = userService.findClients(name);
 
 		// ZM not sure how this works
@@ -217,6 +275,7 @@ public class OperatorController implements Initializable {
 		tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
 		tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 		tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
+
 		for (int i = 0; i < res.size(); i++) {
 			tw_findClient.getItems().add(res.get(i));
 		}
@@ -236,7 +295,7 @@ public class OperatorController implements Initializable {
 			tc_findBook_condition;
 
 	private void displayBooks(List<Book> books) {
-		// TODO move in the validator class
+		tw_findBook.getItems().clear();
 		if (books.isEmpty() || books == null) {
 			tb_findBook_name.clear();
 			tb_findBook_author.clear();
@@ -246,12 +305,9 @@ public class OperatorController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("No Records");
 			alert.setHeaderText("No records found !!");
-			// alert.setContentText("Please enter");
 			alert.showAndWait();
 			return;
 		}
-
-		tw_findBook.getItems().clear();
 
 		tc_findBook_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("Name"));
 		tc_findBook_author.setCellValueFactory(new PropertyValueFactory<Object, Object>("Authors"));
@@ -269,7 +325,12 @@ public class OperatorController implements Initializable {
 
 		if (cb_findBook.getValue() == "Book Name") {
 			String name = tb_findBook_name.getText();
-			// tb_findBook_name.clear();
+			if (!Validator.hasCharsOnly(name)) {
+				this.showWrongInputAllert();
+				tb_findBook_name.clear();
+				return;
+			}
+
 			tb_findBook_author.clear();
 			tb_findBook_genre.clear();
 			tb_findBook_condition.clear();
@@ -277,29 +338,46 @@ public class OperatorController implements Initializable {
 			this.displayBooks(bookService.getBookbyName(name));
 		} else if (cb_findBook.getValue() == "Book Author") {
 			String author = tb_findBook_author.getText();
+			if (!Validator.hasCharsOnly(author)) {
+				this.showWrongInputAllert();
+				tb_findBook_author.clear();
+				return;
+			}
+
 			tb_findBook_name.clear();
-			// tb_findBook_author.clear();
 			tb_findBook_genre.clear();
 			tb_findBook_condition.clear();
 
 			this.displayBooks(bookService.getBooksByAuthor(author));
 		} else if (cb_findBook.getValue() == "Book Genre") {
 			String genre = tb_findBook_genre.getText();
+			if (!Validator.hasCharsOnly(genre)) {
+				this.showWrongInputAllert();
+				tb_findBook_genre.clear();
+				return;
+			}
+
 			tb_findBook_name.clear();
 			tb_findBook_author.clear();
-			// tb_findBook_genre.clear();
 			tb_findBook_condition.clear();
 
 			this.displayBooks(bookService.getBooksByGenre(genre));
 		} else if (cb_findBook.getValue() == "Condition") {
 			String str_condition = tb_findBook_condition.getText();
-			int condition = Integer.parseInt(str_condition);
+			int condition;
+			if (Validator.hasDigitsOnly(str_condition)) {
+				condition = Integer.parseInt(str_condition);
+				if (condition < 0) {
+					this.showWrongInputAllert();
+					tb_findBook_genre.clear();
+					return;
+				}
+				this.displayBooks(bookService.getBookByCondition(condition));
+			}
+
 			tb_findBook_name.clear();
 			tb_findBook_author.clear();
 			tb_findBook_genre.clear();
-			// tb_findBook_condition.clear();
-
-			this.displayBooks(bookService.getBookByCondition(condition));
 		}
 
 	}
@@ -313,6 +391,20 @@ public class OperatorController implements Initializable {
 		String name = tb_addClient_name.getText();
 		String pass = tb_addClient_pass.getText();
 		String phone = tb_addClient_phone.getText();
+
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+		status &= Validator.isNullOrEmpty(pass);
+		status &= Validator.checkPhone(phone);
+
+		if (!status) {
+			this.showWrongInputAllert();
+
+			tb_addClient_name.clear();
+			tb_addClient_pass.clear();
+			tb_addClient_phone.clear();
+			return;
+		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal2 = Calendar.getInstance();
@@ -338,26 +430,38 @@ public class OperatorController implements Initializable {
 	private TextField tb_makeRent_cname, tb_makeRent_bname, tb_makeRent_takeDate;
 
 	@FXML
-	private void makeRent(ActionEvent event) throws SQLException {
+	private void makeRent(ActionEvent event) {
 
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
-		Book bk = new Book(book_name);
-		Client cl = new Client(client_name);
+		boolean status = true;
+		status &= Validator.hasCharsOnly(book_name);
+		status &= Validator.hasCharsOnly(client_name);
+
+		if (!status) {
+			this.showWrongInputAllert();
+
+			tb_makeRent_bname.clear();
+			tb_makeRent_cname.clear();
+			return;
+		}
+
+		Book bk = bookService.getBookbyName(book_name).get(0);
+		Client cl = userService.getClientByName(client_name);
 
 		Rent r = new Rent(cl, bk);
-		int status = rentService.makeRent(r);
+		int statusRent = rentService.makeRent(r);
 
-		if (status == 0) {
+		if (statusRent == 0) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("SUCCESS");
-			alert.setHeaderText("The rent is successfully made !!");
+			alert.setHeaderText("The rent is successfully made !!\n " + bk.getName() + " is given to " + cl.getName());
 			alert.showAndWait();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("FAIL");
-			alert.setHeaderText("The cannot be made !!");
+			alert.setHeaderText("The rent cannot be made !!");
 			alert.showAndWait();
 		}
 		tb_makeRent_bname.clear();
@@ -365,25 +469,38 @@ public class OperatorController implements Initializable {
 	}
 
 	@FXML
-	private void closeRent(ActionEvent event) throws SQLException {
+	private void closeRent(ActionEvent event) {
 		String book_name = tb_makeRent_bname.getText();
 		String client_name = tb_makeRent_cname.getText();
 
-		Book bk = new Book(book_name);
-		Client cl = new Client(client_name);
+		boolean status = true;
+		status &= Validator.hasCharsOnly(book_name);
+		status &= Validator.hasCharsOnly(client_name);
+
+		if (!status) {
+			this.showWrongInputAllert();
+
+			tb_makeRent_bname.clear();
+			tb_makeRent_cname.clear();
+			return;
+		}
+
+		Book bk = bookService.getBookbyName(book_name).get(0);
+		Client cl = userService.getClientByName(client_name);
 
 		Rent r = new Rent(cl, bk);
-		int status = rentService.closeRent(r);
+		int statusRent = rentService.closeRent(r);
 
-		if (status == 0) {
+		if (statusRent == 0) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("SUCCESS");
-			alert.setHeaderText("The rent is successfully cloesd !!");
+			alert.setHeaderText(
+					"The rent is successfully cloesd !!\n " + cl.getName() + " returned book : " + bk.getName());
 			alert.showAndWait();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("FAIL");
-			alert.setHeaderText("The cannot be cloesd !!");
+			alert.setHeaderText("The rent cannot be cloesd !!");
 			alert.showAndWait();
 		}
 		tb_makeRent_bname.clear();
@@ -396,13 +513,21 @@ public class OperatorController implements Initializable {
 	private TableView tw_class;
 
 	private void displayClients(List<Client> res) {
-		tw_class.getItems().clear();
 
+		tw_class.getItems().clear();
+		if (res.isEmpty() || res == null) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("No Records");
+			alert.setHeaderText("No records found !!");
+			alert.showAndWait();
+			return;
+		}
+
+		tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
+		tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
+		tc_class_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
+		tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 		for (int i = 0; i < res.size(); i++) {
-			tc_class_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
-			tc_class_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
-			tc_class_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
-			tc_class_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
 
 			tw_class.getItems().add(res.get(i));
 		}
