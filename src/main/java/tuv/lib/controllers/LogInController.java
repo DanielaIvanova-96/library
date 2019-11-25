@@ -29,6 +29,7 @@ import tuv.lib.models.User;
 import tuv.lib.models.User.Possition;
 import tuv.lib.models.interfaces.UserService;
 import tuv.lib.models.UserServiceImpl;
+import tuv.lib.models.Validator;
 
 /**
  * Controller for the login form
@@ -68,9 +69,23 @@ public class LogInController implements Initializable {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
-
+			String name =  tb_username.getText();
 			String pass = tb_password.getText();
-			User u = userService.getUserByName(tb_username.getText());
+			
+			boolean status = true;
+			status &= Validator.hasCharsOnly(name);
+			status &= ! Validator.isNullOrEmpty(pass);
+			
+			if (!status) {
+				Validator.showWrongInputAllert();
+
+				tb_username.clear();
+				tb_password.clear();
+				return;
+			}
+			
+			User u = userService.getUserByName(name);
+			
 			if (u == null || u.getPosstion() == Possition.CLIENT) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
@@ -107,6 +122,16 @@ public class LogInController implements Initializable {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
+	}
+	
+	
+		/**Listener on the close button
+		 * @param event
+		 */
+		@FXML
+		private void cancel(ActionEvent event) {
+			Stage stage = (Stage) btn_cancel.getScene().getWindow();
+		    stage.close();		
 	}
 
 }

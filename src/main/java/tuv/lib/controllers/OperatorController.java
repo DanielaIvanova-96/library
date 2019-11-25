@@ -163,12 +163,7 @@ public class OperatorController implements Initializable {
 		panes.put(btn_Classification, pln_Classification);
 	}
 
-	private void showWrongInputAllert() {
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Wrong input");
-		alert.setHeaderText("Please input correct values!");
-		alert.showAndWait();
-	}
+
 
 	// add book block
 	@FXML
@@ -195,7 +190,7 @@ public class OperatorController implements Initializable {
 		}
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 			tb_addBook_name.clear();
 			tb_addBook_author.clear();
 			tb_addBook_genre.clear();
@@ -228,7 +223,7 @@ public class OperatorController implements Initializable {
 		status &= Validator.hasDigitsOnly(tb_removeBook_number.getText());
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 			tb_removeBook_name.clear();
 			tb_removeBook_number.clear();
 			return;
@@ -261,7 +256,7 @@ public class OperatorController implements Initializable {
 		status &= Validator.checkPhone(phone);
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 
 			tb_findClient_name.clear();
 			tb_findClient_phone.clear();
@@ -270,16 +265,7 @@ public class OperatorController implements Initializable {
 
 		List<Client> res = userService.findClients(name);
 
-		// ZM not sure how this works
-		tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
-		tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
-		tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
-		tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
-
-		for (int i = 0; i < res.size(); i++) {
-			tw_findClient.getItems().add(res.get(i));
-		}
-
+		this.displayClients(res);
 	}
 
 	ObservableList<String> find_by = FXCollections.observableArrayList("Book Name", "Book Author", "Book Genre",
@@ -326,7 +312,7 @@ public class OperatorController implements Initializable {
 		if (cb_findBook.getValue() == "Book Name") {
 			String name = tb_findBook_name.getText();
 			if (!Validator.hasCharsOnly(name)) {
-				this.showWrongInputAllert();
+				Validator.showWrongInputAllert();
 				tb_findBook_name.clear();
 				return;
 			}
@@ -339,7 +325,7 @@ public class OperatorController implements Initializable {
 		} else if (cb_findBook.getValue() == "Book Author") {
 			String author = tb_findBook_author.getText();
 			if (!Validator.hasCharsOnly(author)) {
-				this.showWrongInputAllert();
+				Validator.showWrongInputAllert();
 				tb_findBook_author.clear();
 				return;
 			}
@@ -352,7 +338,7 @@ public class OperatorController implements Initializable {
 		} else if (cb_findBook.getValue() == "Book Genre") {
 			String genre = tb_findBook_genre.getText();
 			if (!Validator.hasCharsOnly(genre)) {
-				this.showWrongInputAllert();
+				Validator.showWrongInputAllert();
 				tb_findBook_genre.clear();
 				return;
 			}
@@ -368,7 +354,7 @@ public class OperatorController implements Initializable {
 			if (Validator.hasDigitsOnly(str_condition)) {
 				condition = Integer.parseInt(str_condition);
 				if (condition < 0) {
-					this.showWrongInputAllert();
+					Validator.showWrongInputAllert();
 					tb_findBook_genre.clear();
 					return;
 				}
@@ -398,7 +384,7 @@ public class OperatorController implements Initializable {
 		status &= Validator.checkPhone(phone);
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 
 			tb_addClient_name.clear();
 			tb_addClient_pass.clear();
@@ -440,7 +426,7 @@ public class OperatorController implements Initializable {
 		status &= Validator.hasCharsOnly(client_name);
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 
 			tb_makeRent_bname.clear();
 			tb_makeRent_cname.clear();
@@ -478,7 +464,7 @@ public class OperatorController implements Initializable {
 		status &= Validator.hasCharsOnly(client_name);
 
 		if (!status) {
-			this.showWrongInputAllert();
+			Validator.showWrongInputAllert();
 
 			tb_makeRent_bname.clear();
 			tb_makeRent_cname.clear();

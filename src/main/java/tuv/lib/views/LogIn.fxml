@@ -7,30 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="261.0"
-	prefWidth="343.0" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="261.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<Label alignment="CENTER_RIGHT" layoutX="42.0" layoutY="104.0"
-			prefHeight="0.0" prefWidth="71.0" text="User Name"
-			textAlignment="RIGHT" />
-		<Label alignment="CENTER_RIGHT" layoutX="39.0" layoutY="152.0"
-			prefHeight="25.0" prefWidth="77.0" text="Password "
-			textAlignment="RIGHT" />
-		<TextField id="tb_username" fx:id="tb_username"
-			layoutX="135.0" layoutY="100.0" />
-		<Button id="btn_logIn" fx:id="btn_logIn" layoutX="90.0"
-			layoutY="199.0" mnemonicParsing="false" onAction="#login"
-			prefHeight="33.0" prefWidth="66.0"
-			style="-fx-background-color: #9DCE67;" text="Log In" />
-		<Button id="btn_cancel" fx:id="btn_cancel" layoutX="186.0"
-			layoutY="199.0" mnemonicParsing="false" prefHeight="33.0"
-			prefWidth="67.0" text="Cancel" />
-		<PasswordField id="tb_password" fx:id="tb_password"
-			layoutX="135.0" layoutY="152.0" />
-		<ImageView fitHeight="77.0" fitWidth="93.0" layoutX="125.0"
-			layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+		<Label alignment="CENTER_RIGHT" layoutX="42.0" layoutY="104.0" prefHeight="0.0" prefWidth="71.0" text="User Name" textAlignment="RIGHT" />
+		<Label alignment="CENTER_RIGHT" layoutX="39.0" layoutY="152.0" prefHeight="25.0" prefWidth="77.0" text="Password " textAlignment="RIGHT" />
+		<TextField id="tb_username" fx:id="tb_username" layoutX="135.0" layoutY="100.0" />
+		<Button id="btn_logIn" fx:id="btn_logIn" layoutX="90.0" layoutY="199.0" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="66.0" style="-fx-background-color: #9DCE67;" text="Log In" />
+		<Button id="btn_cancel" fx:id="btn_cancel" layoutX="186.0" layoutY="199.0" mnemonicParsing="false" onAction="#cancel" prefHeight="33.0" prefWidth="67.0" text="Cancel" />
+		<PasswordField id="tb_password" fx:id="tb_password" layoutX="135.0" layoutY="152.0" />
+		<ImageView fitHeight="77.0" fitWidth="93.0" layoutX="125.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@/LibLogo.png" />
 			</image>

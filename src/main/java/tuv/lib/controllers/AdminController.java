@@ -69,22 +69,18 @@ public class AdminController implements Initializable {
 		String name = tb_addUsername.getText().trim();
 		String pass = tb_addPassword.getText().trim();
 
-		if (Validator.isNullOrEmpty(name) || Validator.isNullOrEmpty(pass)) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Empty field");
-			alert.setHeaderText("Pase insert proper information in the fields");
-			alert.showAndWait().ifPresent(new Consumer<ButtonType>() {
-				public void accept(ButtonType rs) {
-					if (rs == ButtonType.OK) {
-						System.out.println("Pressed OK.");
-					}
-				}
-			});
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+		status &= Validator.hasCharsOnly(pass);
+		
+		if (!status) {
+			Validator.showWrongInputAllert();
 
 			tb_addUsername.clear();
 			tb_addPassword.clear();
-
+			return;
 		}
+		
 
 		User u = admin.createOperator(name, pass);
 		this.userService.addUser(u);

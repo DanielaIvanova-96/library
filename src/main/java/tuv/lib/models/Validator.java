@@ -1,5 +1,7 @@
 package tuv.lib.models;
 
+import javafx.scene.control.Alert;
+
 /**
  * Validates fields
  * 
@@ -79,6 +81,13 @@ public class Validator {
 			}
 		}
 		return true;
+	}
+		
+	public static void showWrongInputAllert() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Wrong input");
+		alert.setHeaderText("Please input correct values!");
+		alert.showAndWait();
 	}
 
 }
