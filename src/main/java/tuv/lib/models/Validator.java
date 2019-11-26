@@ -35,7 +35,7 @@ public class Validator {
 			return false;
 		}
 		for (int i = 0; i < str.length(); i++) {
-			if ((Character.isLetter(str.charAt(i)) == false)) {
+			if ((Character.isLetter(str.charAt(i)) == false) && !Character.isWhitespace(str.charAt(i)) {
 				return false;
 			}
 		}
