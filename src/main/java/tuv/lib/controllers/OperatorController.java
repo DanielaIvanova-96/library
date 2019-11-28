@@ -380,7 +380,7 @@ public class OperatorController implements Initializable {
 
 		boolean status = true;
 		status &= Validator.hasCharsOnly(name);
-		status &= Validator.isNullOrEmpty(pass);
+		status &= ! Validator.isNullOrEmpty(pass);
 		status &= Validator.checkPhone(phone);
 
 		if (!status) {

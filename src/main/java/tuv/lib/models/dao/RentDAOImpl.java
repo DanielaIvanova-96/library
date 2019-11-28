@@ -60,10 +60,7 @@ public class RentDAOImpl implements RentDAO {
 					+ r.getBook().getName() + "';";
 
 			st.executeUpdate(query);
-			LocalDate tempDateTime = LocalDate.from(r.getReturnDate());
-			long diff = tempDateTime.until(LocalDate.now(), ChronoUnit.DAYS);
-			int newLoyalty = (int) (r.getClient().getLoyalty() + diff);
-			r.getClient().setLoyalty(newLoyalty);
+			r.updateLoyalty();
 			
 			String updateLoyalty = "UPDATE libr.users SET USER_LOYALTY = "+r.getClient().getLoyalty()+" WHERE USER_NAME = '"+ r.getClient().getName() +"' ;"; 			
 			st.executeUpdate(updateLoyalty);

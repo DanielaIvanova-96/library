@@ -1,6 +1,7 @@
 package tuv.lib.models;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Rent {
 	private Client client;
@@ -56,6 +57,22 @@ public class Rent {
 
 	public void setReturnDate(LocalDate returnDate) {
 		this.returnDate = returnDate;
+	}
+
+	public void updateLoyalty() {
+		LocalDate tempDateTime = LocalDate.from(this.getReturnDate());
+		long diff = tempDateTime.until(LocalDate.now(), ChronoUnit.DAYS);
+		long update = 0;
+		if (diff < 0 && diff > -9) {
+			update = 2;
+		} else if (diff == 0) {
+			update = 1;
+		} else {
+
+			update = -5;
+		}
+		int newLoyalty = (int) (this.getClient().getLoyalty() + update);
+		this.getClient().setLoyalty(newLoyalty);
 	}
 
 }
