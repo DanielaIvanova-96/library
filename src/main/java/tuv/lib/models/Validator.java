@@ -18,13 +18,16 @@ public class Validator {
 	 * @return boolean result
 	 */
 	public static boolean isNullOrEmpty(String str) {
-		if (str == null || str.isEmpty())
+		if (str == null)
+			return true;
+		str = str.trim();
+		if (str.isEmpty())
 			return true;
 		return false;
 	}
 
 	/**
-	 * Check if string has chars only
+	 * Check if string has chars or white spaces only
 	 * 
 	 * @param str
 	 *            string to be checked
@@ -35,7 +38,7 @@ public class Validator {
 			return false;
 		}
 		for (int i = 0; i < str.length(); i++) {
-			if ((Character.isLetter(str.charAt(i)) == false) && !Character.isWhitespace(str.charAt(i)) {
+			if ((Character.isLetter(str.charAt(i)) == false) && !Character.isWhitespace(str.charAt(i))) {
 				return false;
 			}
 		}
@@ -43,8 +46,8 @@ public class Validator {
 	}
 
 	/**
-	 * Check if string checks if string is correct phone number : has 10 symbols, all
-	 * of the symbols are digits
+	 * Check if string checks if string is correct phone number : has 10 symbols,
+	 * all of the symbols are digits
 	 * 
 	 * @param str
 	 *            phone number
@@ -68,7 +71,8 @@ public class Validator {
 	/**
 	 * Check if string has digits only
 	 * 
-	 * @param str string to be checked
+	 * @param str
+	 *            string to be checked
 	 * @return
 	 */
 	public static boolean hasDigitsOnly(String str) {
@@ -82,7 +86,7 @@ public class Validator {
 		}
 		return true;
 	}
-		
+
 	public static void showWrongInputAllert() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Wrong input");
