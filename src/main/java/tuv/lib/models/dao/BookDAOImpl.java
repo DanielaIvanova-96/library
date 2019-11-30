@@ -2,6 +2,7 @@ package tuv.lib.models.dao;
 
 import tuv.lib.models.Book;
 import tuv.lib.models.DBConnector;
+import tuv.lib.models.Validator;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -125,6 +126,7 @@ public class BookDAOImpl implements BookDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		return null;
@@ -171,6 +173,7 @@ public class BookDAOImpl implements BookDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		return null;
@@ -217,6 +220,7 @@ public class BookDAOImpl implements BookDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		return null;
@@ -263,6 +267,7 @@ public class BookDAOImpl implements BookDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		return null;
@@ -296,6 +301,7 @@ public class BookDAOImpl implements BookDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);

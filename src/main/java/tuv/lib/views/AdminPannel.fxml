@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="336.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="336.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<tabs>
 		<Tab id="createOpr" text="Create Operator">
 			<content>
@@ -29,7 +29,7 @@
 					<children>
 						<Text layoutX="38.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User name" />
 						<TextField id="tb_removeUsername" fx:id="tb_removeUsername" layoutX="143.0" layoutY="60.0" />
-						<Button id="btn_removeUser" fx:id="btn_removeUser" layoutX="113.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeUser" text="Remove Operator" />
+						<Button id="btn_removeUser" fx:id="btn_removeUser" layoutX="139.0" layoutY="122.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
 					</children>
 				</AnchorPane>
 			</content>

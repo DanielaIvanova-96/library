@@ -21,16 +21,16 @@ public class UserServiceImpl implements UserService {
 		userDAO = new UserDAOImpl();
 	}
 
+	public void removeUser(String name) {
+		this.userDAO.removeUser(name);
+	}
+	
 	public void addUser(User u) {
 		this.userDAO.addUser(u);
 	}
 
 	public void addClient(Client cl) {
 		this.userDAO.addClient(cl);
-	}
-
-	public void removeUser(int id) {
-		this.userDAO.removeUser(id);
 	}
 
 	public int getUserPos(String name, String password) {
@@ -58,6 +58,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Client getClientByName(String name) {
 		return userDAO.getClientByName(name);
-	}
+	}	
 
 }

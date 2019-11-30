@@ -93,5 +93,12 @@ public class Validator {
 		alert.setHeaderText("Please input correct values!");
 		alert.showAndWait();
 	}
+	
+	public static void showSQLErrorAllert() {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("SQL Error");
+		alert.setHeaderText("The transaction cannot be executed!");
+		alert.showAndWait();
+	}
 
 }

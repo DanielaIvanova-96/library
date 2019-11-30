@@ -55,7 +55,18 @@ public class AdminController implements Initializable {
 
 	@FXML
 	private void removeUser(ActionEvent event) {
-		System.out.println("some text  2 ");
+		String name = tb_removeUsername.getText().trim();
+		boolean status = true;
+		status &= Validator.hasCharsOnly(name);
+	
+		if (!status) {
+			Validator.showWrongInputAllert();
+
+			tb_removeUsername.clear();			
+			return;
+		}
+		
+		this.userService.removeUser(name);		
 	}
 
 	/**
@@ -83,9 +94,10 @@ public class AdminController implements Initializable {
 		
 
 		User u = admin.createOperator(name, pass);
-		this.userService.addUser(u);
-
-		// System.out.println("some text");
-
+		this.userService.addUser(u);		
 	}
+	
+	
+	
+	
 }

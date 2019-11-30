@@ -5,10 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import tuv.lib.models.*;
 import tuv.lib.models.interfaces.BookService;
 import tuv.lib.models.interfaces.RentService;
@@ -19,9 +23,12 @@ import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.function.Consumer;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
+import java.io.IOException;
 
 public class OperatorController implements Initializable {
 	private UserService userService;
@@ -29,14 +36,25 @@ public class OperatorController implements Initializable {
 	private RentService rentService;
 	private Map<Button, Pane> panes;
 	private Operator operator;
+	private NotificationsTask nt;
+	
+	private final long TIMER_PERIOD = 60000;
+	private static Timer timer  = null;
+	
+	public static Timer getTimer() {
+		return timer;
+	}
 
 	public OperatorController(User u) {
 		this.operator = new Operator(u);
 	}
 
 	@FXML
+	private Label l_name;
+
+	@FXML
 	private Button btn_addBook, btn_removeBook, btn_addClient, btn_makeRent, btn_findBook, btn_findClient,
-			btn_Classification;
+			btn_Classification, btn_getNotf;
 	@FXML
 	private Pane pln_addBook, pln_removeBook, pln_addClient, pln_makeRent, pln_findBook, pln_findClient,
 			pln_Classification;
@@ -64,6 +82,12 @@ public class OperatorController implements Initializable {
 		this.userService = new UserServiceImpl();
 		this.bookService = new BookServiceImpl();
 		this.rentService = new RentServiceImpl();
+		
+		this.timer = new Timer();
+		nt = new NotificationsTask();
+		timer.scheduleAtFixedRate(nt,TIMER_PERIOD, TIMER_PERIOD);
+
+		l_name.setText("Operator : " + this.operator.getName());
 
 		for (Map.Entry<Button, Pane> entry : panes.entrySet())
 			entry.getValue().setVisible(false);
@@ -162,8 +186,6 @@ public class OperatorController implements Initializable {
 		panes.put(btn_findClient, pln_findClient);
 		panes.put(btn_Classification, pln_Classification);
 	}
-
-
 
 	// add book block
 	@FXML
@@ -380,7 +402,7 @@ public class OperatorController implements Initializable {
 
 		boolean status = true;
 		status &= Validator.hasCharsOnly(name);
-		status &= ! Validator.isNullOrEmpty(pass);
+		status &= !Validator.isNullOrEmpty(pass);
 		status &= Validator.checkPhone(phone);
 
 		if (!status) {
@@ -530,4 +552,11 @@ public class OperatorController implements Initializable {
 		List<Client> res = userService.classifyClients(" ");
 		displayClients(res);
 	}
+	
+	@FXML
+	private void getNotifications(ActionEvent event) {
+		nt.run();
+	}
+	
+	
 }

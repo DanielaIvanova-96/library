@@ -18,6 +18,14 @@ public class Rent {
 		this.returnDate = takeDate.plusDays(10);
 
 	}
+	
+	
+	public Rent(String clientName , String BookName, String retDate)
+	{
+		this.client = new Client(clientName);
+		this.book = new Book(BookName);
+		this.returnDate = LocalDate.parse(retDate);
+	}
 
 	public Client getClient() {
 		return client;

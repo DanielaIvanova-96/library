@@ -12,6 +12,6 @@ public interface UserService {
 	public List<Client> findClients(String name);
 	public List<Client> classifyClients(String classProperty);
 	public void addClient(Client cl);
-	public void removeUser(int id);
+	public void removeUser(String name);
 	public int getUserPos(String name, String password);
 }

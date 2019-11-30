@@ -92,4 +92,12 @@ public class Book {
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+	
+	
+	
 }

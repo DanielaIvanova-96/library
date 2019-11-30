@@ -13,7 +13,7 @@ public interface UserDAO {
 	public void addUser(User u);
 	public void addClient(Client cl);
 	public void updateUser(User u);
-	public void removeUser(int id);
+	public void removeUser(String name);
 	public List<User> listUsers();
 	public List<Client> findClients(String name);
 	public List<Client> classifyClients(String classProperty);

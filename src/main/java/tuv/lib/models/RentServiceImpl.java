@@ -1,5 +1,7 @@
 package tuv.lib.models;
 
+import java.util.List;
+
 import tuv.lib.models.dao.RentDAO;
 import tuv.lib.models.dao.RentDAOImpl;
 import tuv.lib.models.interfaces.RentService;
@@ -19,4 +21,8 @@ public class RentServiceImpl implements RentService {
 		return this.rentDAO.closeRent(r);
 	}
 
+	@Override
+	public List<Rent> getNotifications() {
+		return this.rentDAO.getNotifications();
+	}
 }

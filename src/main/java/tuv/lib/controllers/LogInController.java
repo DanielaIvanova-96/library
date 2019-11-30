@@ -69,13 +69,13 @@ public class LogInController implements Initializable {
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
-			String name =  tb_username.getText();
+			String name = tb_username.getText();
 			String pass = tb_password.getText();
-			
+
 			boolean status = true;
 			status &= Validator.hasCharsOnly(name);
-			status &= ! Validator.isNullOrEmpty(pass);
-			
+			status &= !Validator.isNullOrEmpty(pass);
+
 			if (!status) {
 				Validator.showWrongInputAllert();
 
@@ -83,9 +83,9 @@ public class LogInController implements Initializable {
 				tb_password.clear();
 				return;
 			}
-			
+
 			User u = userService.getUserByName(name);
-			
+
 			if (u == null || u.getPosstion() == Possition.CLIENT) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
@@ -95,7 +95,7 @@ public class LogInController implements Initializable {
 				tb_password.setText("");
 				return;
 			}
-			
+
 			if (u.getPassword().equals(pass)) {
 				Log4.logLogIn(u);
 				if (u.getPosstion() == Possition.ADMIN) {
@@ -104,14 +104,21 @@ public class LogInController implements Initializable {
 					address = "../../../views/AdminPannel.fxml";
 				} else if (u.getPosstion() == Possition.OPERATOR) {
 					OperatorController oc = new OperatorController(u);
-					loader.setController(oc);				
+					loader.setController(oc);
 					address = "../../../views/final_view.fxml";
 				}
+			} else {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Incorrect password! ");
+				alert.showAndWait();
+				tb_password.setText("");
+				return;
 			}
-			
+
 			btn_logIn.getScene().getWindow().hide();
 
-			Stage sys = new Stage();			
+			Stage sys = new Stage();
 			loader.setLocation(getClass().getResource(address));
 			loader.load();
 			Scene scene = new Scene((Parent) loader.getRoot());
@@ -119,19 +126,20 @@ public class LogInController implements Initializable {
 			sys.show();
 			sys.setResizable(false);
 
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-		/**Listener on the close button
-		 * @param event
-		 */
-		@FXML
-		private void cancel(ActionEvent event) {
-			Stage stage = (Stage) btn_cancel.getScene().getWindow();
-		    stage.close();		
+
+	/**
+	 * Listener on the close button
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void cancel(ActionEvent event) {
+		Stage stage = (Stage) btn_cancel.getScene().getWindow();
+		stage.close();
 	}
 
 }

@@ -59,6 +59,11 @@ public class Client extends User {
 		return phoneNum;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 	public String getRecordDate() {
 		return recordDate.toString();
 	}

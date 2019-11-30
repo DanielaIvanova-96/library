@@ -19,6 +19,7 @@ import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
 import tuv.lib.models.User;
 import tuv.lib.models.User.Possition;
+import tuv.lib.models.Validator;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -47,6 +48,7 @@ public class UserDAOImpl implements UserDAO {
 			st.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 	}
@@ -67,6 +69,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 	}
 
@@ -74,9 +77,20 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	public void removeUser(int id) {
-		// TODO Auto-generated method stub
+	public void removeUser(String name) {
+		String query = "DELETE FROM users WHERE USER_NAME = '"+ name+ "';";
 
+		Connection con = DBConnector.getConnection();
+		Statement st;
+		try {
+			st = con.createStatement();
+			st.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Validator.showSQLErrorAllert();
+		}
 	}
 
 	public List<User> listUsers() {
@@ -99,6 +113,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 		return -1;
 	}
@@ -128,6 +143,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 		return clinetsRes;
 	}
@@ -162,6 +178,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 		return clinetsRes;
 	}
@@ -182,6 +199,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 		return null;
 	}
@@ -211,6 +229,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Validator.showSQLErrorAllert();
 		}
 
 		return null;
