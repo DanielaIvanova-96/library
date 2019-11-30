@@ -261,7 +261,7 @@ public class OperatorController implements Initializable {
 
 	// find client block
 	@FXML
-	private TextField tb_findClient_name, tb_findClient_phone;
+	private TextField tb_findClient_name;
 	@FXML
 	private TableView tw_findClient;
 	@FXML
@@ -271,23 +271,28 @@ public class OperatorController implements Initializable {
 	@FXML
 	private void findClient(ActionEvent event) {
 		String name = tb_findClient_name.getText();
-		String phone = tb_findClient_phone.getText();
 
 		boolean status = true;
 		status &= Validator.hasCharsOnly(name);
-		status &= Validator.checkPhone(phone);
 
 		if (!status) {
 			Validator.showWrongInputAllert();
 
 			tb_findClient_name.clear();
-			tb_findClient_phone.clear();
 			return;
 		}
 
 		List<Client> res = userService.findClients(name);
 
-		this.displayClients(res);
+		tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
+		tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
+		tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
+		tc_findClient_recDate.setCellValueFactory(new PropertyValueFactory<Object, Object>("recordDate"));
+
+		for (int i = 0; i < res.size(); i++) {
+			tw_findClient.getItems().add(res.get(i));
+		}
+
 	}
 
 	ObservableList<String> find_by = FXCollections.observableArrayList("Book Name", "Book Author", "Book Genre",
