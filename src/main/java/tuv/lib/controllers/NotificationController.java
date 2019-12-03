@@ -12,6 +12,10 @@ import tuv.lib.models.Rent;
 import tuv.lib.models.RentServiceImpl;
 import tuv.lib.models.interfaces.RentService;
 
+/**Contoller for the notifications view in the operator
+ * @author Zheni
+ *
+ */
 public class NotificationController implements Initializable {
 
 	private RentService rentServices;

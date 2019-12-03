@@ -11,15 +11,14 @@ import java.sql.Statement;
  * Static class that connects to the database
  * 
  * @author Zheni
- *
  */
 final public class DBConnector {
 
 	private static Connection con;
 
 	private static final String url = "jdbc:mysql://localhost:3306/libr?useSSL=false";
-	private static final String user = "zheni";
-	private static final String password = "nikola";
+	private static final String user = "root";
+	private static final String password = "";
 
 	/**
 	 * Sets up the url , username and password for the database connection  
@@ -69,19 +68,6 @@ final public class DBConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public static ResultSet executeQuery(String query) {
-		setUpConncetion();
-		ResultSet rs = null;
-		try {
-			Statement st = con.createStatement();
-			rs = st.executeQuery(query);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return rs;
-	}
+	}	
 
 }

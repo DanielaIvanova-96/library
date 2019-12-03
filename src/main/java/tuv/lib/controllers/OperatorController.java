@@ -235,6 +235,9 @@ public class OperatorController implements Initializable {
 	@FXML
 	private TextField tb_removeBook_name, tb_removeBook_number;
 
+	/**Remove book entity by name and condition
+	 * @param event
+	 */
 	@FXML
 	private void removeBook(ActionEvent event) {
 		String name = tb_removeBook_name.getText();
@@ -268,6 +271,9 @@ public class OperatorController implements Initializable {
 	public javafx.scene.control.TableColumn tc_findClient_name, tc_findClient_phone, tc_findClient_recDate,
 			tc_findClient_loyalty;
 
+	/**Finds client by name 
+	 * @param event
+	 */
 	@FXML
 	private void findClient(ActionEvent event) {
 		String name = tb_findClient_name.getText();
@@ -309,6 +315,9 @@ public class OperatorController implements Initializable {
 	public javafx.scene.control.TableColumn tc_findBook_name, tc_findBook_author, tc_findBook_genre, tc_findBook_invNum,
 			tc_findBook_condition;
 
+	/**Displays Books in the table view
+	 * @param books
+	 */
 	private void displayBooks(List<Book> books) {
 		tw_findBook.getItems().clear();
 		if (books.isEmpty() || books == null) {
@@ -335,6 +344,9 @@ public class OperatorController implements Initializable {
 		}
 	}
 
+	/**Finds book by some criteria
+	 * @param event
+	 */
 	@FXML
 	private void findBook(ActionEvent event) {
 
@@ -401,6 +413,9 @@ public class OperatorController implements Initializable {
 	@FXML
 	private TextField tb_addClient_name, tb_addClient_pass, tb_addClient_phone;
 
+	/**Add Client to the database.
+	 * @param event
+	 */
 	@FXML
 	private void addClient(ActionEvent event) {
 		String name = tb_addClient_name.getText();
@@ -444,6 +459,10 @@ public class OperatorController implements Initializable {
 	@FXML
 	private TextField tb_makeRent_cname, tb_makeRent_bname, tb_makeRent_takeDate;
 
+	/**Makes rent if possible
+	 * If it is not possible shows alert box with the reason 
+	 * @param event
+	 */
 	@FXML
 	private void makeRent(ActionEvent event) {
 
@@ -489,6 +508,9 @@ public class OperatorController implements Initializable {
 		tb_makeRent_cname.clear();
 	}
 
+	/**Closes rent if possible
+	 * @param event
+	 */
 	@FXML
 	private void closeRent(ActionEvent event) {
 		String book_name = tb_makeRent_bname.getText();
@@ -533,6 +555,9 @@ public class OperatorController implements Initializable {
 	@FXML
 	private TableView tw_class;
 
+	/**Displays the result of Clients in the table view 
+	 * @param res
+	 */
 	private void displayClients(List<Client> res) {
 
 		tw_class.getItems().clear();
@@ -566,10 +591,12 @@ public class OperatorController implements Initializable {
 		displayClients(res);
 	}
 	
+	/**Get the notification window when it is invoked from its button
+	 * @param event
+	 */
 	@FXML
 	private void getNotifications(ActionEvent event) {
 		nt.run();
-	}
-	
+	}	
 	
 }

@@ -57,9 +57,7 @@ public class LogInController implements Initializable {
 		userService = new UserServiceImpl();
 	}
 
-	/**
-	 * 
-	 * Listener on login button
+	/** Listener on login button
 	 * 
 	 * @param event
 	 */
@@ -131,8 +129,7 @@ public class LogInController implements Initializable {
 		}
 	}
 
-	/**
-	 * Listener on the close button
+	/** Listener on the close button
 	 * 
 	 * @param event
 	 */
