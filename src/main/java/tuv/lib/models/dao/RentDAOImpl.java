@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.control.Alert;
 import tuv.lib.models.Book;
 import tuv.lib.models.Client;
 import tuv.lib.models.DBConnector;
@@ -23,16 +24,23 @@ public class RentDAOImpl implements RentDAO {
 		try {
 			st = con.createStatement();
 			ResultSet rs;
-			String id_book = "SELECT books.BOOK_ID" + " FROM (" + "SELECT books.BOOK_ID" + " from books"
+			String book = "SELECT books.BOOK_ID, books.BOOK_CONDITION " + " FROM (" + "SELECT books.BOOK_ID , books.BOOK_CONDITION " + " from books"
 					+ " join books_info on books_info.BOOK_INFO_ID = books.BOOK_INFO_ID"
 					+ " WHERE books_info.BOOK_INFO_NAME = '" + r.getBook().getName() + "'" + ") books"
 					+ " left JOIN rents on rents.BOOK_ID = books.BOOK_ID"
 					+ " where rents.RENT_STATUS is null or rents.RENT_STATUS = 1 limit 1;";
 
-			rs = st.executeQuery(id_book);
+			rs = st.executeQuery(book);
 
 			if (rs.next()) {
 				int res_id_book = rs.getInt("BOOK_ID");
+				int res_cond_book = rs.getInt("BOOK_CONDITION");
+				if(res_cond_book > 100)
+				{				
+					return 1;
+				}
+				
+				
 				String query = "INSERT INTO rents VALUES " + "(default, '" + r.getTakeDate() + "', (SELECT DATE_ADD('"
 						+ r.getTakeDate() + "', INTERVAL 20 DAY)), " + res_id_book
 						+ ", (SELECT users.USER_ID from users where users.USER_NAME = '" + r.getClient().getName()

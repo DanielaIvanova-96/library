@@ -284,6 +284,8 @@ public class OperatorController implements Initializable {
 
 		List<Client> res = userService.findClients(name);
 
+		tw_findClient.getItems().clear();
+		
 		tc_findClient_name.setCellValueFactory(new PropertyValueFactory<Object, Object>("name"));
 		tc_findClient_phone.setCellValueFactory(new PropertyValueFactory<Object, Object>("phoneNum"));
 		tc_findClient_loyalty.setCellValueFactory(new PropertyValueFactory<Object, Object>("loyalty"));
@@ -471,11 +473,17 @@ public class OperatorController implements Initializable {
 			alert.setTitle("SUCCESS");
 			alert.setHeaderText("The rent is successfully made !!\n " + bk.getName() + " is given to " + cl.getName());
 			alert.showAndWait();
+		} else if (statusRent == 1)  {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("This book cannot be rented");
+			alert.setHeaderText("This book is for the reading room ONLY!");
+			alert.showAndWait();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("FAIL");
 			alert.setHeaderText("The rent cannot be made !!");
 			alert.showAndWait();
+			
 		}
 		tb_makeRent_bname.clear();
 		tb_makeRent_cname.clear();
