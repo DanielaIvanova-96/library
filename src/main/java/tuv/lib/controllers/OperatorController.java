@@ -7,11 +7,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import tuv.lib.models.*;
 import tuv.lib.models.interfaces.BookService;
@@ -38,7 +43,7 @@ public class OperatorController implements Initializable {
 	private Operator operator;
 	private NotificationsTask nt;
 	
-	private final long TIMER_PERIOD = 60000;
+	private final long TIMER_PERIOD = 10000;
 	private static Timer timer  = null;
 	
 	public static Timer getTimer() {
@@ -84,7 +89,7 @@ public class OperatorController implements Initializable {
 		this.rentService = new RentServiceImpl();
 		
 		this.timer = new Timer();
-		nt = new NotificationsTask();
+		nt = new NotificationsTask(btn_getNotf);
 		timer.scheduleAtFixedRate(nt,TIMER_PERIOD, TIMER_PERIOD);
 
 		l_name.setText("Operator : " + this.operator.getName());
@@ -596,7 +601,22 @@ public class OperatorController implements Initializable {
 	 */
 	@FXML
 	private void getNotifications(ActionEvent event) {
-		nt.run();
+		btn_getNotf.setBackground(new Background(new BackgroundFill(Color.web("#FFFFFF"), CornerRadii.EMPTY, Insets.EMPTY)));
+		FXMLLoader loader = new FXMLLoader();
+		NotificationController nc = new NotificationController();
+		loader.setController(nc);
+		String address = "../../../views/NotificationPannel.fxml";
+		Stage sys = new Stage();
+		try {
+		loader.setLocation(getClass().getResource(address));
+			loader.load();
+		} catch (IOException e) {       			
+			e.printStackTrace();
+		}
+		Scene scene = new Scene((Parent) loader.getRoot());
+		sys.setScene(scene);
+		sys.show();
+		sys.setResizable(false);
 	}	
 	
 }
