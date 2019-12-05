@@ -6,6 +6,10 @@ import java.util.List;
 
 import javassist.expr.NewArray;
 
+/** Book model class
+ * @author nikola
+ *
+ */
 public class Book {
 	int id;
 	String name;
@@ -23,6 +27,13 @@ public class Book {
 		this(name, authors, genre, invNum, 0);
 	}
 
+	/**The main constructor which is used in the other constructors
+	 * @param name name of the books
+	 * @param authors List of the authors names
+	 * @param genre name of the genre of the book
+	 * @param invNum inventory number of the book
+	 * @param condition the number thats shows how may times one book is taken
+	 */
 	public Book(String name, List<String> authors, String genre, String invNum, int condition) {
 		this.authors = new ArrayList<String>() {
 			private static final long serialVersionUID = 1L;
@@ -97,7 +108,5 @@ public class Book {
 	public String toString() {
 		return this.name;
 	}
-	
-	
-	
+
 }

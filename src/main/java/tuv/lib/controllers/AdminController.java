@@ -24,7 +24,7 @@ import tuv.lib.models.Validator;
 import tuv.lib.models.interfaces.UserService;
 
 /**
- * Controller that handles if the logged user is operator
+ * Controller that handles if the logged user is admin
  * 
  * @author Zheni
  */
@@ -53,6 +53,9 @@ public class AdminController implements Initializable {
 		userService = new UserServiceImpl();
 	}
 
+	/**Removes user 
+	 * @param event
+	 */
 	@FXML
 	private void removeUser(ActionEvent event) {
 		String name = tb_removeUsername.getText().trim();

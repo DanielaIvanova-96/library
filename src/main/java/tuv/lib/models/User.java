@@ -18,6 +18,10 @@ import javax.persistence.Table;
 //@Table(name = "USERS")
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name = "USER_POSS", discriminatorType = DiscriminatorType.INTEGER)
+/**Class for the client model
+ * @author Zheni
+ *
+ */
 public class User {
 
 	/** 
@@ -79,6 +83,11 @@ public class User {
 		this.possition = pos;
 	}
 	
+	/**Converts the integer value to the corresponding position
+	 * @param possInt
+	 * @return
+	 * @throws Exception if the integer value does not have corresponding position
+	 */
 	public static Possition convertIntToPoss(int possInt) throws Exception 
 	{
 		switch (possInt) {

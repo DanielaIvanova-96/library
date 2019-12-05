@@ -3,6 +3,10 @@ package tuv.lib.models;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+/**Class for the rent model
+ * @author Zheni
+ *
+ */
 public class Rent {
 	private Client client;
 	private Book book;
@@ -67,6 +71,9 @@ public class Rent {
 		this.returnDate = returnDate;
 	}
 
+	/**
+	 * Updates loyalty of the user that is in the rent
+	 */
 	public void updateLoyalty() {
 		LocalDate tempDateTime = LocalDate.from(this.getReturnDate());
 		long diff = tempDateTime.until(LocalDate.now(), ChronoUnit.DAYS);

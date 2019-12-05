@@ -87,6 +87,9 @@ public class Validator {
 		return true;
 	}
 
+	/**
+	 * Shows alert for wrong input
+	 */
 	public static void showWrongInputAllert() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Wrong input");
@@ -94,6 +97,9 @@ public class Validator {
 		alert.showAndWait();
 	}
 	
+	/**
+	 *  Shows alert for database error
+	 */
 	public static void showSQLErrorAllert() {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("SQL Error");

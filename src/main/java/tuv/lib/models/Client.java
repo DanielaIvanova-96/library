@@ -12,6 +12,11 @@ import javax.persistence.InheritanceType;
 //@Entity
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //@DiscriminatorValue ("2")
+/**
+ * Client model class
+ * @author Zheni
+ *
+ */
 public class Client extends User {
 
 	// @Column(name = "USER_LOYALTY")

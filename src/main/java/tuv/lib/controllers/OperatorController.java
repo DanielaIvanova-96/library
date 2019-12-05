@@ -35,6 +35,11 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 import java.io.IOException;
 
+/**Controller for the operator view 
+ * Contains the main logic of the application
+ * @author Daniela
+ *
+ */
 public class OperatorController implements Initializable {
 	private UserService userService;
 	private BookService bookService;
@@ -349,7 +354,7 @@ public class OperatorController implements Initializable {
 		}
 	}
 
-	/**Finds book by some criteria
+	/**Finds book by criteria
 	 * @param event
 	 */
 	@FXML
@@ -584,19 +589,25 @@ public class OperatorController implements Initializable {
 		}
 	}
 
+	/**Shows the loyal clients in table view
+	 * @param event
+	 */
 	@FXML
 	private void classification_byLoyalty(ActionEvent event) {
 		List<Client> res = userService.classifyClients("loyalty");
 		displayClients(res);
 	}
 
+	/**Shows all clients sorted by registration date
+	 * @param event
+	 */
 	@FXML
 	private void classification_byRecDate(ActionEvent event) {
 		List<Client> res = userService.classifyClients(" ");
 		displayClients(res);
 	}
 	
-	/**Get the notification window when it is invoked from its button
+	/**Shows the notification window when it is invoked from its button
 	 * @param event
 	 */
 	@FXML
